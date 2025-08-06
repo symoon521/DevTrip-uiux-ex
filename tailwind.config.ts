@@ -8,10 +8,17 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        sans: ['var(--font-inter)', 'sans-serif'],
+        headline: ['var(--font-inter)', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
@@ -55,16 +62,6 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        sidebar: {
-          DEFAULT: 'hsl(var(--sidebar-background))',
-          foreground: 'hsl(var(--sidebar-foreground))',
-          primary: 'hsl(var(--sidebar-primary))',
-          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-          accent: 'hsl(var(--sidebar-accent))',
-          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-          border: 'hsl(var(--sidebar-border))',
-          ring: 'hsl(var(--sidebar-ring))',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -88,10 +85,21 @@ export default {
             height: '0',
           },
         },
+        'unfold-in': {
+          '0%': { transform: 'scaleY(0.005) scaleX(0)', opacity: '0' },
+          '50%': { transform: 'scaleY(0.005) scaleX(1)', opacity: '0.5' },
+          '100%': { transform: 'scaleY(1) scaleX(1)', opacity: '1' },
+        },
+        'fly-in': {
+          from: { transform: 'translateY(1rem)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'unfold-in': 'unfold-in 0.7s ease-in-out forwards',
+        'fly-in': 'fly-in 0.5s ease-out forwards',
       },
     },
   },

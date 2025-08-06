@@ -1,0 +1,65 @@
+"use client"
+import Link from "next/link"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+const destinations = [
+  { id: 'docker', name: 'Docker', stack: 'docker', coords: { x: 230, y: 150 }, description: "Containerization - USA" },
+  { id: 'kubernetes', name: 'Kubernetes', stack: 'kubernetes', coords: { x: 495, y: 140 }, description: "Orchestration - Germany" },
+  { id: 'jenkins', name: 'Jenkins', stack: 'jenkins', coords: { x: 250, y: 170 }, description: "CI/CD - USA" },
+  { id: 'argocd', name: 'ArgoCD', stack: 'argocd', coords: { x: 790, y: 165 }, description: "GitOps - Japan" },
+  { id: 'kafka', name: 'Kafka', stack: 'kafka', coords: { x: 320, y: 280 }, description: "Event Streaming - Brazil" },
+  { id: 'prometheus', name: 'Prometheus', stack: 'prometheus', coords: { x: 500, y: 180 }, description: "Monitoring - Switzerland" },
+  { id: 'helm', name: 'Helm', stack: 'helm', coords: { x: 450, y: 120 }, description: "Packaging - UK" },
+];
+
+export function WorldMap() {
+  return (
+    <TooltipProvider>
+      <div className="relative w-full h-full">
+        <svg viewBox="0 0 960 480" className="w-full h-full bg-card rounded-lg border">
+          <path d="M480 475c-140.2-2.2-258-67.8-349.4-177.3C96.9 270.6 71.5 240.2 40 240c31.5.2 56.9 30.6 90.6 57.7C222 387.2 339.8 452.8 480 455c140.2-2.2 258-67.8 349.4-177.3C863.1 250.6 888.5 220.2 920 220c-31.5-.2-56.9-30.6-90.6-57.7C738 72.8 620.2 7.2 480 5 339.8 7.2 222 72.8 130.6 182.3 96.9 209.4 71.5 239.8 40 240c31.5-.2 56.9-30.6 90.6-57.7C222 92.8 339.8 27.2 480 25c140.2 2.2 258 67.8 349.4 177.3C863.1 330.6 888.5 360.2 920 360c-31.5.2-56.9-30.6-90.6-57.7C738 212.8 620.2 147.2 480 145c-140.2 2.2-258 67.8-349.4 177.3C96.9 450.6 71.5 480.2 40 480c31.5-.2 56.9-30.6 90.6-57.7C222 332.8 339.8 267.2 480 265c140.2-2.2 258-67.8 349.4-177.3C863.1 60.6 888.5 30.2 920 30c-31.5.2-56.9 30.6-90.6 57.7C738 177.2 620.2 242.8 480 245c-140.2-2.2-258-67.8-349.4-177.3C96.9 40.6 71.5 10.2 40 10c31.5-.2 56.9 30.6 90.6 57.7C222 157.2 339.8 222.8 480 225Z" fill="hsl(var(--secondary))"></path>
+          
+          {destinations.map(dest => (
+            <Tooltip key={dest.id} delayDuration={100}>
+              <TooltipTrigger asChild>
+                 <Link href={`/missions/${dest.stack}`}>
+                    <g className="cursor-pointer group animate-fly-in" style={{ animationDelay: `${Math.random() * 0.5}s` }}>
+                      <circle 
+                          cx={dest.coords.x} 
+                          cy={dest.coords.y} 
+                          r="12" 
+                          fill="hsl(var(--primary))" 
+                          className="opacity-20 group-hover:opacity-40 transition-opacity"
+                      />
+                      <circle 
+                          cx={dest.coords.x} 
+                          cy={dest.coords.y} 
+                          r="6" 
+                          fill="hsl(var(--primary))"
+                          className="group-hover:scale-110 transition-transform"
+                      />
+                      <circle 
+                          cx={dest.coords.x} 
+                          cy={dest.coords.y} 
+                          r="2" 
+                          fill="hsl(var(--primary-foreground))"
+                      />
+                    </g>
+                 </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="font-bold">{dest.name}</p>
+                <p className="text-sm text-muted-foreground">{dest.description}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </svg>
+      </div>
+    </TooltipProvider>
+  )
+}
