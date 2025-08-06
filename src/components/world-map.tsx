@@ -30,10 +30,11 @@ export function WorldMap() {
     <TooltipProvider>
       <div className="relative w-full h-full bg-card rounded-lg border border-border/50 overflow-hidden">
         <Image 
-            src="https://placehold.co/1200x600.png" 
+            src="https://placehold.co/1200x800.png"
             alt="World Map" 
-            fill
-            className="object-cover opacity-30"
+            layout="fill"
+            objectFit="cover"
+            className="opacity-20"
             data-ai-hint="world map"
         />
         <div className="absolute inset-0 w-full h-full bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"></div>
@@ -44,12 +45,15 @@ export function WorldMap() {
                  <Link 
                     href={`/missions/${dest.stack}`} 
                     className="absolute group"
-                    style={{ left: `${dest.coords.x}%`, top: `${dest.coords.y}%`, transform: 'translate(-50%, -50%)' }}
+                    style={{ 
+                      left: `${dest.coords.x}%`, 
+                      top: `${dest.coords.y}%`, 
+                      transform: 'translate(-50%, -50%)',
+                      animation: `fly-in 0.5s ${i * 0.1}s ease-out forwards`, 
+                      opacity: 0 
+                    }}
                 >
-                    <div 
-                        className="w-3 h-3 bg-primary rounded-full shadow-[0_0_10px] shadow-primary transition-all group-hover:scale-150"
-                        style={{ animation: `fly-in 0.5s ${i * 0.1}s ease-out forwards`, opacity: 0 }}
-                    ></div>
+                    <div className="w-3 h-3 bg-primary rounded-full shadow-[0_0_10px] shadow-primary transition-all group-hover:scale-150"></div>
                     <div className="w-5 h-5 bg-primary/30 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
                  </Link>
               </TooltipTrigger>
