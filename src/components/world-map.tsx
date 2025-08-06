@@ -17,11 +17,27 @@ const destinations = [
   { id: 'helm', name: 'Helm', stack: 'helm', coords: { x: 450, y: 120 }, description: "패키징 - 영국" },
 ];
 
+const WorldMapSvg = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 2000 1001"
+      className="absolute inset-0 w-full h-full object-cover opacity-20"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <path
+        fill="hsl(var(--primary))"
+        d="M1000 0C447.8 0 0 447.8 0 1000h2000C2000 447.8 1552.2 0 1000 0zM874.4 565.4h11.2l2.1 11.1h12.1l-11.4-32.1h-12.8l-11.5 32.1h12.1l2.2-11.1zM879.7 561.3l5-13.8 4.9 13.8h-9.9zM900.5 544.4h12.2v-11h-12.2v11zm0 30h12.2v-11h-12.2v11zm17.1-30h12.2v11h-12.2v-11zm0 30h12.2v-11h-12.2v11zm17.1-30h12.2v11h-12.2v-11zm0 30h12.2v-11h-12.2v11zm17 30h12.2v-11h-12.2v11zm-17 0h12.2v-11h-12.2v11zm-17.1 0h12.2v-11h-12.2v11zm-17.1-50.9l7.3-8.8h-5.2v-10.3h14.5v3.1l-7.3 8.8h5.6v10.3H951v-3.1zm21.3 5.4h2.1v-12.8h-2.1v-5.2h12.9v5.2h-2.1v12.8h2.1v5.2H972.3v-5.2z"
+      ></path>
+    </svg>
+)
+
 export function WorldMap() {
   return (
     <TooltipProvider>
       <div className="relative w-full h-full bg-card rounded-lg border border-border/50 p-1">
-        <svg viewBox="0 0 960 480" className="w-full h-full rounded-md">
+        <div className="absolute inset-0 w-full h-full bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"></div>
+        <WorldMapSvg />
+        <svg viewBox="0 0 960 480" className="w-full h-full rounded-md relative">
          <defs>
             <filter id="glow">
                 <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
@@ -30,14 +46,8 @@ export function WorldMap() {
                     <feMergeNode in="SourceGraphic" />
                 </feMerge>
             </filter>
-            <radialGradient id="mapGradient" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.5">
-                <stop offset="0%" stopColor="hsl(var(--secondary))" />
-                <stop offset="100%" stopColor="hsl(var(--background))" />
-            </radialGradient>
         </defs>
 
-        <path d="M480 475c-140.2-2.2-258-67.8-349.4-177.3C96.9 270.6 71.5 240.2 40 240c31.5.2 56.9 30.6 90.6 57.7C222 387.2 339.8 452.8 480 455c140.2-2.2 258-67.8 349.4-177.3C863.1 250.6 888.5 220.2 920 220c-31.5-.2-56.9-30.6-90.6-57.7C738 72.8 620.2 7.2 480 5 339.8 7.2 222 72.8 130.6 182.3 96.9 209.4 71.5 239.8 40 240c31.5-.2 56.9-30.6 90.6-57.7C222 92.8 339.8 27.2 480 25c140.2 2.2 258 67.8 349.4 177.3C863.1 330.6 888.5 360.2 920 360c-31.5.2-56.9-30.6-90.6-57.7C738 212.8 620.2 147.2 480 145c-140.2 2.2-258 67.8-349.4 177.3C96.9 450.6 71.5 480.2 40 480c31.5-.2 56.9-30.6 90.6-57.7C222 332.8 339.8 267.2 480 265c140.2-2.2 258-67.8 349.4-177.3C863.1 60.6 888.5 30.2 920 30c-31.5.2-56.9 30.6-90.6 57.7C738 177.2 620.2 242.8 480 245c-140.2-2.2-258-67.8-349.4-177.3C96.9 40.6 71.5 10.2 40 10c31.5-.2 56.9 30.6 90.6 57.7C222 157.2 339.8 222.8 480 225Z" fill="url(#mapGradient)" opacity="0.3"></path>
-          
           {destinations.map(dest => (
             <Tooltip key={dest.id} delayDuration={100}>
               <TooltipTrigger asChild>
