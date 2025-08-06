@@ -21,16 +21,14 @@ const destinations = [
 export function WorldMap() {
   return (
     <TooltipProvider>
-      <div className="relative w-full h-full bg-card rounded-lg border border-border/50 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image 
-              src="https://upload.wikimedia.org/wikipedia/commons/e/e8/World_map_orange_blue_dots.png"
-              alt="World Map" 
-              layout="fill"
-              objectFit="cover"
-              className="opacity-20"
-          />
-        </div>
+      <div className="absolute inset-0 bg-card rounded-lg border border-border/50 overflow-hidden">
+        <Image 
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e8/World_map_orange_blue_dots.png"
+            alt="World Map" 
+            layout="fill"
+            objectFit="cover"
+            className="opacity-20"
+        />
         <div className="absolute inset-0 w-full h-full bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"></div>
         <div className="absolute inset-0 w-full h-full">
           {destinations.map((dest, i) => (

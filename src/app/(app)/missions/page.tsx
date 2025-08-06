@@ -9,7 +9,7 @@ export default function MissionsPage() {
           지도에서 기술 스택을 선택하여 가능한 미션을 확인하세요.
         </p>
       </div>
-      <div className="flex-1 min-h-[50vh]">
+      <div className="flex-1 min-h-[50vh] relative">
         <WorldMap />
       </div>
     </div>
