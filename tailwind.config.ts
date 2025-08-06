@@ -81,7 +81,7 @@ export default {
           from: {
             height: 'var(--radix-accordion-content-height)',
           },
-to: {
+          to: {
             height: '0',
           },
         },
@@ -91,8 +91,14 @@ to: {
           '100%': { transform: 'scaleY(1) scaleX(1)', opacity: '1' },
         },
         'fly-in': {
-          from: { transform: 'translateY(1rem)', opacity: '0' },
-          to: { transform: 'translateY(0)', opacity: '1' },
+          from: {
+            opacity: '0',
+            transform: 'translateY(1rem)'
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
         },
         'to-right': {
           '0%': { transform: 'translateX(-100%)' },
