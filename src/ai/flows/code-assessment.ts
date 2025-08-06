@@ -54,15 +54,15 @@ Finally, provide an overall score for the code and environment.
 Mission Description: {{{missionDescription}}}
 
 Code:
-```
+\`\`\`
 {{{code}}}
-```
+\`\`\`
 
 {{#if environmentState}}
 Environment State:
-```
+\`\`\`
 {{{environmentState}}}
-```
+\`\`\`
 {{/if}}`,
 });
 
