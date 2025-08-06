@@ -22,15 +22,15 @@ export function AppHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="md:hidden flex items-center h-16 px-4 border-b bg-card">
+    <header className="md:hidden flex items-center h-16 px-4 border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="ghost" size="icon">
             <Menu className="h-6 w-6" />
             <span className="sr-only">네비게이션 메뉴 토글</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col p-0">
+        <SheetContent side="left" className="flex flex-col p-0 bg-card border-r">
           <div className="p-4 border-b">
             <Link href="/dashboard" className="flex items-center gap-2" prefetch={false}>
               <Plane className="h-6 w-6 text-primary" />
@@ -42,11 +42,11 @@ export function AppHeader() {
               <Button
                 key={item.href}
                 variant={pathname === item.href ? "secondary" : "ghost"}
-                className="w-full justify-start"
+                className="w-full justify-start text-lg py-6"
                 asChild
               >
                 <Link href={item.href}>
-                  <item.icon className="mr-2 h-4 w-4" />
+                  <item.icon className="mr-2 h-5 w-5" />
                   {item.label}
                 </Link>
               </Button>
