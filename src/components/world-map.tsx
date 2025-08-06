@@ -1,5 +1,4 @@
 "use client"
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -20,12 +19,6 @@ const destinations = [
 ];
 
 export function WorldMap() {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-  
   return (
     <TooltipProvider>
       <div className="relative w-full h-full bg-card rounded-lg border border-border/50 overflow-hidden">
@@ -38,18 +31,18 @@ export function WorldMap() {
         />
         <div className="absolute inset-0 w-full h-full bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"></div>
         <div className="absolute inset-0 w-full h-full">
-          {isClient && destinations.map((dest, i) => (
+          {destinations.map((dest, i) => (
             <Tooltip key={dest.id} delayDuration={100}>
               <TooltipTrigger asChild>
                  <Link 
                     href={`/missions/${dest.stack}`} 
-                    className="absolute group"
+                    className="absolute group animate-fly-in"
                     style={{ 
                       left: `${dest.coords.x}%`, 
                       top: `${dest.coords.y}%`, 
                       transform: 'translate(-50%, -50%)',
-                      animation: `fly-in 0.5s ${i * 0.1}s ease-out forwards`, 
-                      opacity: 0 
+                      animationDelay: `${i * 0.1}s`,
+                      opacity: 0, 
                     }}
                 >
                     <div className="w-3 h-3 bg-primary rounded-full shadow-[0_0_10px] shadow-primary transition-all group-hover:scale-150"></div>
