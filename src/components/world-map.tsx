@@ -23,7 +23,7 @@ export function WorldMap() {
     <TooltipProvider>
       <div className="absolute inset-0 bg-card rounded-lg border border-border/50 overflow-hidden">
         <Image 
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e8/World_map_orange_blue_dots.png"
+            src="https://raw.githubusercontent.com/cosmogico/bluemarble/master/bluemarble/data/source/bm-oct.png"
             alt="World Map" 
             layout="fill"
             objectFit="cover"
