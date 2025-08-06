@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Map, Rocket, BrainCircuit, Terminal, ArrowRight, CheckCircle } from "lucide-react"
 
@@ -54,9 +54,8 @@ export default function LandingPage() {
             <Image
               src="https://placehold.co/1920x1080.png"
               alt="Background"
-              layout="fill"
-              objectFit="cover"
-              className="opacity-10"
+              fill
+              className="object-cover opacity-10"
               data-ai-hint="world map tech"
             />
              <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background"></div>
@@ -121,52 +120,57 @@ export default function LandingPage() {
             <div className="mx-auto w-full max-w-4xl pt-12">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                   <Card className="flex flex-col">
-                      <CardHeader className="flex-1">
+                      <CardHeader className="flex-1 pb-4">
                           <CardTitle>이코노미</CardTitle>
-                          <div className="text-4xl font-bold mt-4">₩0<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                          <CardDescription className="pt-2">기본적인 기능으로 시작하는 플랜</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <ul className="space-y-2 text-left text-sm">
+                          <div className="text-4xl font-bold">₩0<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                          <ul className="space-y-2 text-left text-sm mt-6">
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 무료 미션 이용</li>
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 기본 AI 피드백</li>
                           </ul>
                       </CardContent>
-                      <CardContent>
+                      <CardFooter>
                         <Button className="w-full" variant="outline" asChild><Link href="/login">시작하기</Link></Button>
-                      </CardContent>
+                      </CardFooter>
                   </Card>
-                  <Card className="flex flex-col border-primary shadow-lg">
-                      <CardHeader className="flex-1">
-                          <div className="bg-primary text-primary-foreground text-xs font-semibold py-1 px-3 rounded-full w-fit mb-2">가장 인기있음</div>
-                          <CardTitle>비즈니스 클래스</CardTitle>
-                          <div className="text-4xl font-bold mt-4">₩29,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                  <Card className="flex flex-col border-primary shadow-2xl relative">
+                        <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
+                            <div className="bg-primary text-primary-foreground text-xs font-semibold py-1 px-3 rounded-full w-fit">가장 인기있음</div>
+                        </div>
+                      <CardHeader className="flex-1 pb-4">
+                          <CardTitle>비즈니스</CardTitle>
+                          <CardDescription className="pt-2">성장을 위한 모든 기능을 갖춘 플랜</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <ul className="space-y-2 text-left text-sm">
+                           <div className="text-4xl font-bold">₩29,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                          <ul className="space-y-2 text-left text-sm mt-6">
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전체 미션 라이브러리</li>
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 고급 AI 평가</li>
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전문가 수준 환경</li>
                           </ul>
                       </CardContent>
-                      <CardContent>
-                        <Button className="w-full" asChild><Link href="/login">비즈니스 선택</Link></Button>
-                      </CardContent>
+                      <CardFooter>
+                        <Button className="w-full" asChild><Link href="/login">비즈니스 플랜 시작</Link></Button>
+                      </CardFooter>
                   </Card>
                   <Card className="flex flex-col">
-                      <CardHeader className="flex-1">
+                      <CardHeader className="flex-1 pb-4">
                           <CardTitle>퍼스트 클래스</CardTitle>
-                          <div className="text-4xl font-bold mt-4">₩50,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                          <CardDescription className="pt-2">전문가를 위한 최고의 경험</CardDescription>
                       </CardHeader>
                       <CardContent>
-                          <ul className="space-y-2 text-left text-sm">
+                          <div className="text-4xl font-bold">₩50,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
+                          <ul className="space-y-2 text-left text-sm mt-6">
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 모든 비즈니스 기능</li>
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 우선 지원</li>
                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 베타 기능 이용</li>
                           </ul>
                       </CardContent>
-                      <CardContent>
-                        <Button className="w-full" variant="outline" asChild><Link href="/login">퍼스트 클래스 선택</Link></Button>
-                      </CardContent>
+                      <CardFooter>
+                        <Button className="w-full" variant="outline" asChild><Link href="/login">퍼스트 클래스 문의</Link></Button>
+                      </CardFooter>
                   </Card>
               </div>
             </div>

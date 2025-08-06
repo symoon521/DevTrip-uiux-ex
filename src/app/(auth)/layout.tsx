@@ -13,9 +13,8 @@ export default function AuthLayout({
             <Image
               src="https://placehold.co/1920x1080.png"
               alt="Background"
-              layout="fill"
-              objectFit="cover"
-              className="opacity-10"
+              fill
+              className="object-cover opacity-10"
               data-ai-hint="abstract geometric"
             />
              <div className="absolute inset-0 bg-gradient-to-br from-background/50 via-background/80 to-background"></div>

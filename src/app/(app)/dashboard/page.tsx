@@ -27,12 +27,12 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold">다시 오신 것을 환영합니다, 모험가님!</h1>
+        <h1 className="text-3xl font-bold tracking-tight">다시 오신 것을 환영합니다, 모험가님!</h1>
         <p className="text-muted-foreground">여정 요약입니다. 다음 목적지로 떠날 준비가 되셨나요?</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="lg:col-span-2 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground">
+        <Card className="lg:col-span-2 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground shadow-lg">
           <CardHeader>
             <CardTitle>여정 계속하기</CardTitle>
             <CardDescription className="text-primary-foreground/80">다음 미션이 독일에서 기다리고 있습니다.</CardDescription>
@@ -86,7 +86,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="p-4">
               <div className="text-3xl font-bold">24시간</div>
-              <p className="text-xs text-muted-foreground">총 시간</p>
+              <p className="text-xs text-muted-foreground">총 학습 시간</p>
             </CardContent>
           </Card>
            <Card>
@@ -104,7 +104,7 @@ export default function DashboardPage() {
       <Card>
         <CardHeader>
           <CardTitle>미션 진행률</CardTitle>
-          <CardDescription>기술 스택별 완료된 미션 수.</CardDescription>
+          <CardDescription>기술 스택별 완료된 미션 수입니다.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px]">

@@ -33,11 +33,11 @@ export default function LoginPage() {
         <div className="grid grid-cols-2 gap-6">
           <Button variant="outline">
             <GithubIcon className="mr-2 h-4 w-4" />
-            Github
+            깃허브
           </Button>
           <Button variant="outline">
             <GoogleIcon className="mr-2 h-4 w-4" />
-            Google
+            구글
           </Button>
         </div>
         <div className="relative">
@@ -46,7 +46,7 @@ export default function LoginPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-card px-2 text-muted-foreground">
-              또는 다음으로 계속
+              또는
             </span>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function LoginPage() {
         <div className="text-center text-sm text-muted-foreground">
           계정이 없으신가요?{" "}
           <Link href="#" className="underline text-primary">
-            가입하기
+            회원가입
           </Link>
         </div>
       </CardFooter>
