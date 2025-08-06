@@ -32,7 +32,7 @@ export function WorldMap() {
         <Image 
             src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
             alt="World Map" 
-            fill
+            layout="fill"
             objectFit="cover"
             className="opacity-20"
         />
