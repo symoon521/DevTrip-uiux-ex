@@ -24,7 +24,7 @@ export function WorldMap() {
       <div className="relative w-full h-full bg-card rounded-lg border border-border/50 overflow-hidden">
         <div className="absolute inset-0">
           <Image 
-              src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
+              src="https://upload.wikimedia.org/wikipedia/commons/e/e8/World_map_orange_blue_dots.png"
               alt="World Map" 
               layout="fill"
               objectFit="cover"
