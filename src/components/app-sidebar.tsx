@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const navItems = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/missions", icon: Map, label: "Missions" },
-  { href: "/profile", icon: UserCircle, label: "Profile" },
+  { href: "/dashboard", icon: LayoutDashboard, label: "대시보드" },
+  { href: "/missions", icon: Map, label: "미션" },
+  { href: "/profile", icon: UserCircle, label: "프로필" },
 ]
 
 export function AppSidebar() {
@@ -56,7 +56,7 @@ export function AppSidebar() {
                   <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="person avatar" />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
-                <span className="text-sm font-medium">User Name</span>
+                <span className="text-sm font-medium">사용자 이름</span>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </Button>
@@ -64,7 +64,7 @@ export function AppSidebar() {
           <DropdownMenuContent className="w-56 mb-2" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">User Name</p>
+                <p className="text-sm font-medium leading-none">사용자 이름</p>
                 <p className="text-xs leading-none text-muted-foreground">
                   user@email.com
                 </p>
@@ -73,12 +73,12 @@ export function AppSidebar() {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <span>설정</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut className="mr-2 h-4 w-4" />
-              <Link href="/">Log out</Link>
+              <Link href="/">로그아웃</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

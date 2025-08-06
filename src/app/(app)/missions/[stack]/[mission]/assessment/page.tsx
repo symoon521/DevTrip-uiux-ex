@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 const missionDetails = {
   "k8s-deployments": {
     id: "k8s-deployments",
-    title: "Fundamentals: Deployments",
+    title: "기초: 배포",
     stack: "kubernetes",
   },
 };
@@ -16,7 +16,7 @@ export default function AssessmentPage({ params }: { params: { mission: string, 
   const mission = missionDetails[params.mission as keyof typeof missionDetails];
 
   if (!mission) {
-    return <div>Mission not found.</div>;
+    return <div>미션을 찾을 수 없습니다.</div>;
   }
   
   const mockCode = `apiVersion: apps/v1
@@ -46,16 +46,16 @@ spec:
             <Button variant="ghost" size="sm" className="mb-4" asChild>
             <Link href={`/missions/${params.stack}/${params.mission}`}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Mission
+                미션으로 돌아가기
             </Link>
             </Button>
-            <h1 className="text-3xl font-bold">Assessment Report</h1>
-            <p className="text-muted-foreground">AI-powered feedback for your attempt at "{mission.title}".</p>
+            <h1 className="text-3xl font-bold">평가 보고서</h1>
+            <p className="text-muted-foreground">"{mission.title}" 시도에 대한 AI 기반 피드백입니다.</p>
         </div>
       <AssessmentReport 
         missionDescription={mission.title} 
         code={mockCode} 
-        environmentState="Deployment and Service created successfully. 2/2 pods are running."
+        environmentState="배포 및 서비스가 성공적으로 생성되었습니다. 2/2개의 파드가 실행 중입니다."
       />
     </div>
   );

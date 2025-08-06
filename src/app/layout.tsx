@@ -6,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'DevTrip: Your DevOps World Tour',
-  description: 'An interactive platform to learn DevOps by completing missions around the world.',
+  title: 'DevTrip: 당신의 DevOps 세계 일주',
+  description: '전 세계를 여행하며 미션을 완료하여 DevOps를 배우는 인터랙티브 플랫폼입니다.',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

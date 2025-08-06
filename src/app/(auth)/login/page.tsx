@@ -24,9 +24,9 @@ export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Welcome Back</CardTitle>
+        <CardTitle className="text-2xl">다시 오신 것을 환영합니다</CardTitle>
         <CardDescription>
-          Enter your email below to log in to your DevTrip account.
+          DevTrip 계정에 로그인하려면 아래에 이메일을 입력하세요.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -46,27 +46,27 @@ export default function LoginPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-card px-2 text-muted-foreground">
-              Or continue with
+              또는 다음으로 계속
             </span>
           </div>
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">이메일</Label>
           <Input id="email" type="email" placeholder="m@example.com" required />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">비밀번호</Label>
           <Input id="password" type="password" required />
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Button className="w-full" asChild>
-            <Link href="/dashboard">Sign in</Link>
+            <Link href="/dashboard">로그인</Link>
         </Button>
         <div className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          계정이 없으신가요?{" "}
           <Link href="#" className="underline text-primary">
-            Sign up
+            가입하기
           </Link>
         </div>
       </CardFooter>

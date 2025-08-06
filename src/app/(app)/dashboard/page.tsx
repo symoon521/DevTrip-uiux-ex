@@ -27,15 +27,15 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-3xl font-bold">Welcome back, Adventurer!</h1>
-        <p className="text-muted-foreground">Here's your travel summary. Ready for the next destination?</p>
+        <h1 className="text-3xl font-bold">다시 오신 것을 환영합니다, 모험가님!</h1>
+        <p className="text-muted-foreground">여정 요약입니다. 다음 목적지로 떠날 준비가 되셨나요?</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="lg:col-span-2 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground">
           <CardHeader>
-            <CardTitle>Continue Your Journey</CardTitle>
-            <CardDescription className="text-primary-foreground/80">Your next mission awaits in Germany.</CardDescription>
+            <CardTitle>여정 계속하기</CardTitle>
+            <CardDescription className="text-primary-foreground/80">다음 미션이 독일에서 기다리고 있습니다.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-4">
@@ -43,19 +43,19 @@ export default function DashboardPage() {
                 <Target className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold">Kubernetes Fundamentals: Deployments</h3>
-                <p className="text-sm text-primary-foreground/80">Difficulty: Intermediate</p>
+                <h3 className="text-xl font-semibold">쿠버네티스 기초: 배포</h3>
+                <p className="text-sm text-primary-foreground/80">난이도: 중급</p>
               </div>
             </div>
             <div className="mt-4">
               <Progress value={45} className="w-full h-2 bg-primary-foreground/20 [&>div]:bg-white" />
-              <p className="text-xs text-right mt-1 text-primary-foreground/80">45% complete</p>
+              <p className="text-xs text-right mt-1 text-primary-foreground/80">45% 완료</p>
             </div>
           </CardContent>
           <CardFooter>
             <Button variant="secondary" asChild>
               <Link href="/missions/kubernetes/k8s-deployments">
-                Resume Mission <ArrowRight className="ml-2 h-4 w-4" />
+                미션 재개 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </CardFooter>
@@ -68,7 +68,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="p-4">
               <div className="text-3xl font-bold">8</div>
-              <p className="text-xs text-muted-foreground">Missions Completed</p>
+              <p className="text-xs text-muted-foreground">완료된 미션</p>
             </CardContent>
           </Card>
            <Card>
@@ -77,7 +77,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="p-4">
               <div className="text-3xl font-bold">92%</div>
-              <p className="text-xs text-muted-foreground">Average Score</p>
+              <p className="text-xs text-muted-foreground">평균 점수</p>
             </CardContent>
           </Card>
            <Card>
@@ -85,8 +85,8 @@ export default function DashboardPage() {
               <Clock className="h-6 w-6 text-muted-foreground" />
             </CardHeader>
             <CardContent className="p-4">
-              <div className="text-3xl font-bold">24h</div>
-              <p className="text-xs text-muted-foreground">Total Time</p>
+              <div className="text-3xl font-bold">24시간</div>
+              <p className="text-xs text-muted-foreground">총 시간</p>
             </CardContent>
           </Card>
            <Card>
@@ -95,7 +95,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="p-4">
               <div className="text-3xl font-bold">3</div>
-              <p className="text-xs text-muted-foreground">Destinations Visited</p>
+              <p className="text-xs text-muted-foreground">방문한 목적지</p>
             </CardContent>
           </Card>
         </div>
@@ -103,8 +103,8 @@ export default function DashboardPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Mission Progress</CardTitle>
-          <CardDescription>Number of missions completed per technology stack.</CardDescription>
+          <CardTitle>미션 진행률</CardTitle>
+          <CardDescription>기술 스택별 완료된 미션 수.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px]">

@@ -61,7 +61,7 @@ export function AssessmentReport({ missionDescription, code, environmentState }:
         });
         setResult(assessmentResult);
       } catch (e) {
-        setError("Failed to get assessment. Please try again later.");
+        setError("평가를 가져오는데 실패했습니다. 나중에 다시 시도해주세요.");
         console.error(e);
       } finally {
         setLoading(false);
@@ -96,30 +96,30 @@ export function AssessmentReport({ missionDescription, code, environmentState }:
     return (
       <Alert variant="destructive">
         <Terminal className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>{error || "An unknown error occurred."}</AlertDescription>
+        <AlertTitle>오류</AlertTitle>
+        <AlertDescription>{error || "알 수 없는 오류가 발생했습니다."}</AlertDescription>
       </Alert>
     );
   }
 
   const analysisItems = [
-    { title: "Code Quality", content: result.codeQuality, icon: <ListChecks className="h-6 w-6 text-blue-500" /> },
-    { title: "Security Analysis", content: result.securityAnalysis, icon: <ShieldCheck className="h-6 w-6 text-green-500" /> },
-    { title: "Performance Analysis", content: result.performanceAnalysis, icon: <Zap className="h-6 w-6 text-yellow-500" /> },
-    { title: "Environment Analysis", content: result.environmentAnalysis, icon: <Bot className="h-6 w-6 text-purple-500" /> },
+    { title: "코드 품질", content: result.codeQuality, icon: <ListChecks className="h-6 w-6 text-blue-500" /> },
+    { title: "보안 분석", content: result.securityAnalysis, icon: <ShieldCheck className="h-6 w-6 text-green-500" /> },
+    { title: "성능 분석", content: result.performanceAnalysis, icon: <Zap className="h-6 w-6 text-yellow-500" /> },
+    { title: "환경 분석", content: result.environmentAnalysis, icon: <Bot className="h-6 w-6 text-purple-500" /> },
   ]
 
   return (
     <div className="grid md:grid-cols-3 gap-6 items-start">
         <Card className="md:col-span-1 sticky top-24">
             <CardHeader className="items-center text-center">
-                <CardTitle>Overall Score</CardTitle>
+                <CardTitle>종합 점수</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
                 <ScoreIndicator score={result.overallScore} />
                 <div className="w-full text-center">
-                    <p className="font-semibold text-lg">Great work!</p>
-                    <p className="text-sm text-muted-foreground">Review the feedback for improvements.</p>
+                    <p className="font-semibold text-lg">훌륭합니다!</p>
+                    <p className="text-sm text-muted-foreground">개선 사항에 대한 피드백을 검토하세요.</p>
                 </div>
             </CardContent>
         </Card>
@@ -142,7 +142,7 @@ export function AssessmentReport({ missionDescription, code, environmentState }:
                 <CardHeader>
                     <CardTitle className="flex items-center gap-3">
                         <Star className="h-6 w-6 text-primary" />
-                        <span>Recommendations</span>
+                        <span>추천 사항</span>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>

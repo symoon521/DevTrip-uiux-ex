@@ -9,40 +9,40 @@ export default function LandingPage() {
   const features = [
     {
       icon: <Map className="h-8 w-8 text-primary" />,
-      title: "Interactive World Map",
-      description: "Navigate a world of DevOps tools. Each country is a technology, each city a new mission.",
+      title: "인터랙티브 월드맵",
+      description: "DevOps 도구의 세계를 탐험하세요. 각 나라는 기술이며, 각 도시는 새로운 미션입니다.",
     },
     {
       icon: <Rocket className="h-8 w-8 text-primary" />,
-      title: "Real-World Missions",
-      description: "Go beyond theory with hands-on labs that mirror real-world DevOps challenges.",
+      title: "실전 미션",
+      description: "실제 DevOps 과제를 반영한 실습 랩을 통해 이론을 넘어 직접 경험해 보세요.",
     },
     {
       icon: <BrainCircuit className="h-8 w-8 text-primary" />,
-      title: "AI-Powered Feedback",
-      description: "Receive instant, intelligent feedback on your code and environment configurations.",
+      title: "AI 기반 피드백",
+      description: "코드와 환경 설정에 대해 즉각적이고 지능적인 피드백을 받아보세요.",
     },
     {
       icon: <Terminal className="h-8 w-8 text-primary" />,
-      title: "Live Terminal & Monitoring",
-      description: "Work in a real-time terminal with integrated resource monitoring, just like a pro.",
+      title: "라이브 터미널 및 모니터링",
+      description: "전문가처럼 통합 리소스 모니터링이 가능한 실시간 터미널에서 작업하세요.",
     },
   ]
 
   const testimonials = [
     {
       name: "Alex Johnson",
-      role: "DevOps Engineer",
+      role: "DevOps 엔지니어",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "man portrait",
-      text: "DevTrip is a game-changer. The hands-on labs are the closest thing to real-world experience I've found.",
+      text: "DevTrip은 게임 체인저입니다. 실제 경험에 가장 가까운 핸즈온 랩을 찾았습니다.",
     },
     {
       name: "Samantha Lee",
-      role: "Cloud Architect",
+      role: "클라우드 아키텍트",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "woman portrait",
-      text: "The AI feedback helped me spot mistakes I didn't even know I was making. My skills have improved dramatically.",
+      text: "AI 피드백 덕분에 제가 저지르고 있는지도 몰랐던 실수들을 발견할 수 있었습니다. 제 기술이 극적으로 향상되었어요.",
     },
   ]
 
@@ -65,16 +65,16 @@ export default function LandingPage() {
             <div className="flex flex-col items-center space-y-6 text-center">
               <div className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                  Your DevOps World Tour Begins Here
+                  당신의 DevOps 세계 일주가 여기서 시작됩니다
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Stop reading, start doing. DevTrip is an interactive platform that turns DevOps learning into a global adventure.
+                  읽는 것을 멈추고, 직접 해보세요. DevTrip은 DevOps 학습을 글로벌 어드벤처로 바꾸는 인터랙티브 플랫폼입니다.
                 </p>
               </div>
               <div className="space-x-4">
                 <Button size="lg" asChild>
                   <Link href="/login">
-                    Start Your Journey
+                    여정 시작하기
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -87,10 +87,10 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Key Features</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Learn by Doing, Not Just Watching</h2>
+                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">주요 기능</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">보기만 하는 것이 아니라, 직접 해보며 배우세요</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our platform is designed to give you practical, hands-on experience with the tools and techniques used by top DevOps professionals.
+                  저희 플랫폼은 최고의 DevOps 전문가들이 사용하는 도구와 기술에 대한 실용적인 핸즈온 경험을 제공하도록 설계되었습니다.
                 </p>
               </div>
             </div>
@@ -113,59 +113,59 @@ export default function LandingPage() {
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Choose Your Ticket to Adventure</h2>
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">모험을 위한 티켓을 선택하세요</h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Affordable plans for individuals and teams. Start for free and upgrade as you grow.
+                개인 및 팀을 위한 합리적인 플랜. 무료로 시작하고 성장함에 따라 업그레이드하세요.
               </p>
             </div>
             <div className="mx-auto w-full max-w-4xl pt-12">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                   <Card className="flex flex-col">
                       <CardHeader className="flex-1">
-                          <CardTitle>Economy</CardTitle>
-                          <div className="text-4xl font-bold mt-4">$0<span className="text-lg font-normal text-muted-foreground">/month</span></div>
+                          <CardTitle>이코노미</CardTitle>
+                          <div className="text-4xl font-bold mt-4">₩0<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                       </CardHeader>
                       <CardContent>
                           <ul className="space-y-2 text-left text-sm">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Free missions access</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Basic AI feedback</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 무료 미션 이용</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 기본 AI 피드백</li>
                           </ul>
                       </CardContent>
                       <CardContent>
-                        <Button className="w-full" variant="outline" asChild><Link href="/login">Get Started</Link></Button>
+                        <Button className="w-full" variant="outline" asChild><Link href="/login">시작하기</Link></Button>
                       </CardContent>
                   </Card>
                   <Card className="flex flex-col border-primary shadow-lg">
                       <CardHeader className="flex-1">
-                          <div className="bg-primary text-primary-foreground text-xs font-semibold py-1 px-3 rounded-full w-fit mb-2">MOST POPULAR</div>
-                          <CardTitle>Business Class</CardTitle>
-                          <div className="text-4xl font-bold mt-4">$29<span className="text-lg font-normal text-muted-foreground">/month</span></div>
+                          <div className="bg-primary text-primary-foreground text-xs font-semibold py-1 px-3 rounded-full w-fit mb-2">가장 인기있음</div>
+                          <CardTitle>비즈니스 클래스</CardTitle>
+                          <div className="text-4xl font-bold mt-4">₩29,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                       </CardHeader>
                       <CardContent>
                           <ul className="space-y-2 text-left text-sm">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Full mission library</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Advanced AI evaluation</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Pro-level environments</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전체 미션 라이브러리</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 고급 AI 평가</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전문가 수준 환경</li>
                           </ul>
                       </CardContent>
                       <CardContent>
-                        <Button className="w-full" asChild><Link href="/login">Choose Business</Link></Button>
+                        <Button className="w-full" asChild><Link href="/login">비즈니스 선택</Link></Button>
                       </CardContent>
                   </Card>
                   <Card className="flex flex-col">
                       <CardHeader className="flex-1">
-                          <CardTitle>First Class</CardTitle>
-                          <div className="text-4xl font-bold mt-4">$50<span className="text-lg font-normal text-muted-foreground">/month</span></div>
+                          <CardTitle>퍼스트 클래스</CardTitle>
+                          <div className="text-4xl font-bold mt-4">₩50,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                       </CardHeader>
                       <CardContent>
                           <ul className="space-y-2 text-left text-sm">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> All Business features</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Priority support</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> Beta feature access</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 모든 비즈니스 기능</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 우선 지원</li>
+                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 베타 기능 이용</li>
                           </ul>
                       </CardContent>
                       <CardContent>
-                        <Button className="w-full" variant="outline" asChild><Link href="/login">Go First Class</Link></Button>
+                        <Button className="w-full" variant="outline" asChild><Link href="/login">퍼스트 클래스 선택</Link></Button>
                       </CardContent>
                   </Card>
               </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
              <div className="mt-8">
                  <Button size="lg" variant="link" asChild>
                     <Link href="/pricing">
-                        Compare All Plans
+                        모든 플랜 비교하기
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                  </Button>
@@ -183,7 +183,7 @@ export default function LandingPage() {
 
         <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-5xl">Loved by Developers Worldwide</h2>
+            <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-5xl">전 세계 개발자들의 사랑을 받습니다</h2>
             <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 mt-12">
               {testimonials.map((testimonial, index) => (
                 <Card key={index} className="p-6">

@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/tooltip"
 
 const destinations = [
-  { id: 'docker', name: 'Docker', stack: 'docker', coords: { x: 230, y: 150 }, description: "Containerization - USA" },
-  { id: 'kubernetes', name: 'Kubernetes', stack: 'kubernetes', coords: { x: 495, y: 140 }, description: "Orchestration - Germany" },
-  { id: 'jenkins', name: 'Jenkins', stack: 'jenkins', coords: { x: 250, y: 170 }, description: "CI/CD - USA" },
-  { id: 'argocd', name: 'ArgoCD', stack: 'argocd', coords: { x: 790, y: 165 }, description: "GitOps - Japan" },
-  { id: 'kafka', name: 'Kafka', stack: 'kafka', coords: { x: 320, y: 280 }, description: "Event Streaming - Brazil" },
-  { id: 'prometheus', name: 'Prometheus', stack: 'prometheus', coords: { x: 500, y: 180 }, description: "Monitoring - Switzerland" },
-  { id: 'helm', name: 'Helm', stack: 'helm', coords: { x: 450, y: 120 }, description: "Packaging - UK" },
+  { id: 'docker', name: 'Docker', stack: 'docker', coords: { x: 230, y: 150 }, description: "컨테이너화 - 미국" },
+  { id: 'kubernetes', name: 'Kubernetes', stack: 'kubernetes', coords: { x: 495, y: 140 }, description: "오케스트레이션 - 독일" },
+  { id: 'jenkins', name: 'Jenkins', stack: 'jenkins', coords: { x: 250, y: 170 }, description: "CI/CD - 미국" },
+  { id: 'argocd', name: 'ArgoCD', stack: 'argocd', coords: { x: 790, y: 165 }, description: "GitOps - 일본" },
+  { id: 'kafka', name: 'Kafka', stack: 'kafka', coords: { x: 320, y: 280 }, description: "이벤트 스트리밍 - 브라질" },
+  { id: 'prometheus', name: 'Prometheus', stack: 'prometheus', coords: { x: 500, y: 180 }, description: "모니터링 - 스위스" },
+  { id: 'helm', name: 'Helm', stack: 'helm', coords: { x: 450, y: 120 }, description: "패키징 - 영국" },
 ];
 
 export function WorldMap() {

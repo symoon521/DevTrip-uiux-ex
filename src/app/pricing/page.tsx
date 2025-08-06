@@ -5,48 +5,48 @@ import { Check, ArrowRight } from "lucide-react"
 
 const plans = [
     {
-        name: "Economy Class",
-        price: "$0",
-        period: "/month",
-        description: "Perfect for starting your journey and exploring basic concepts.",
+        name: "이코노미 클래스",
+        price: "₩0",
+        period: "/월",
+        description: "여정을 시작하고 기본 개념을 탐색하기에 완벽합니다.",
         features: [
-            "3 free mission tickets per day",
-            "Access to beginner missions",
-            "Standard AI-powered feedback",
-            "Community support",
+            "하루 3개의 무료 미션 티켓",
+            "초보자 미션 이용 가능",
+            "표준 AI 기반 피드백",
+            "커뮤니티 지원",
         ],
-        cta: "Start for Free",
+        cta: "무료로 시작하기",
         href: "/login",
         isPopular: false,
     },
     {
-        name: "Business Class",
-        price: "$29",
-        period: "/month",
-        description: "The ideal choice for serious learners aiming to master DevOps.",
+        name: "비즈니스 클래스",
+        price: "₩29,000",
+        period: "/월",
+        description: "DevOps를 마스터하려는 진지한 학습자에게 이상적인 선택입니다.",
         features: [
-            "Unlimited mission tickets",
-            "Full access to all missions",
-            "Advanced AI evaluation & reports",
-            "Isolated, high-performance environments",
-            "Priority support",
+            "무제한 미션 티켓",
+            "모든 미션에 대한 전체 액세스",
+            "고급 AI 평가 및 보고서",
+            "격리된 고성능 환경",
+            "우선 지원",
         ],
-        cta: "Upgrade to Business",
+        cta: "비즈니스로 업그레이드",
         href: "/login?plan=business",
         isPopular: true,
     },
     {
-        name: "First Class",
-        price: "$50",
-        period: "/month",
-        description: "For professionals who demand the best experience and features.",
+        name: "퍼스트 클래스",
+        price: "₩50,000",
+        period: "/월",
+        description: "최고의 경험과 기능을 요구하는 전문가를 위한 플랜입니다.",
         features: [
-            "All Business Class features",
-            "1-on-1 expert sessions (2/month)",
-            "Early access to new missions & features",
-            "Dedicated support channel",
+            "모든 비즈니스 클래스 기능",
+            "1:1 전문가 세션 (월 2회)",
+            "새로운 미션 및 기능 조기 이용",
+            "전용 지원 채널",
         ],
-        cta: "Go First Class",
+        cta: "퍼스트 클래스로 이동",
         href: "/login?plan=first",
         isPopular: false,
     }
@@ -57,9 +57,9 @@ export default function PricingPage() {
         <div className="bg-secondary">
         <div className="container mx-auto py-20 px-4 md:px-6">
             <div className="flex flex-col items-center text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">Choose Your Ticket</h1>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">티켓 선택하기</h1>
                 <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-                    Flexible plans for every stage of your DevOps journey. No turbulence, just smooth learning.
+                    DevOps 여정의 모든 단계를 위한 유연한 플랜. 난기류 없이 부드러운 학습만 있습니다.
                 </p>
             </div>
 
@@ -68,7 +68,7 @@ export default function PricingPage() {
                     <Card key={plan.name} className={`flex flex-col ${plan.isPopular ? 'border-primary ring-2 ring-primary shadow-2xl' : ''}`}>
                         {plan.isPopular && (
                             <div className="bg-primary text-primary-foreground text-xs font-semibold text-center py-1 rounded-t-lg">
-                                MOST POPULAR
+                                가장 인기있음
                             </div>
                         )}
                         <CardHeader>
@@ -101,15 +101,15 @@ export default function PricingPage() {
             <Card className="mt-12 bg-background">
                 <div className="p-6 grid md:grid-cols-2 gap-6 items-center">
                     <div>
-                        <h3 className="text-2xl font-bold">Need a Team Plan?</h3>
+                        <h3 className="text-2xl font-bold">팀 플랜이 필요하신가요?</h3>
                         <p className="text-muted-foreground mt-2">
-                            Custom solutions for businesses and educational institutions. Manage your team's journey with a unified dashboard and billing.
+                            기업 및 교육 기관을 위한 맞춤형 솔루션. 통합 대시보드 및 결제로 팀의 여정을 관리하세요.
                         </p>
                     </div>
                     <div className="md:text-right">
                         <Button size="lg" variant="default" asChild>
                             <Link href="/contact-sales">
-                                Contact Sales <ArrowRight className="ml-2 h-5 w-5" />
+                                영업팀에 문의 <ArrowRight className="ml-2 h-5 w-5" />
                             </Link>
                         </Button>
                     </div>

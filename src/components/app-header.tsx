@@ -13,9 +13,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const navItems = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/missions", icon: Map, label: "Missions" },
-  { href: "/profile", icon: UserCircle, label: "Profile" },
+  { href: "/dashboard", icon: LayoutDashboard, label: "대시보드" },
+  { href: "/missions", icon: Map, label: "미션" },
+  { href: "/profile", icon: UserCircle, label: "프로필" },
 ]
 
 export function AppHeader() {
@@ -27,7 +27,7 @@ export function AppHeader() {
         <SheetTrigger asChild>
           <Button variant="outline" size="icon">
             <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle navigation menu</span>
+            <span className="sr-only">네비게이션 메뉴 토글</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-0">
@@ -59,7 +59,7 @@ export function AppHeader() {
                         <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="person avatar"/>
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
-                    <span className="text-sm font-medium">User Name</span>
+                    <span className="text-sm font-medium">사용자 이름</span>
                 </div>
                 <Button variant="ghost" size="icon" asChild>
                     <Link href="/"><LogOut className="h-4 w-4" /></Link>

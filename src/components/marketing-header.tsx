@@ -11,9 +11,9 @@ export function MarketingHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navLinks = [
-    { href: "#features", label: "Features" },
-    { href: "/pricing", label: "Pricing" },
-    { href: "#testimonials", label: "Testimonials" },
+    { href: "#features", label: "기능" },
+    { href: "/pricing", label: "요금제" },
+    { href: "#testimonials", label: "추천사" },
   ]
 
   return (
@@ -37,10 +37,10 @@ export function MarketingHeader() {
         </nav>
         <div className="hidden items-center gap-4 md:flex">
           <Button variant="ghost" asChild>
-            <Link href="/login">Log In</Link>
+            <Link href="/login">로그인</Link>
           </Button>
           <Button asChild>
-            <Link href="/login">Start Your Journey</Link>
+            <Link href="/login">여정 시작하기</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -65,10 +65,10 @@ export function MarketingHeader() {
             ))}
             <div className="flex flex-col gap-4 w-full pt-4 border-t">
               <Button variant="ghost" asChild className="w-full">
-                <Link href="/login">Log In</Link>
+                <Link href="/login">로그인</Link>
               </Button>
               <Button asChild className="w-full">
-                <Link href="/login">Start Your Journey</Link>
+                <Link href="/login">여정 시작하기</Link>
               </Button>
             </div>
           </nav>

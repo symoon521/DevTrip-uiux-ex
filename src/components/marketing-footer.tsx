@@ -11,7 +11,7 @@ export function MarketingFooter() {
             <span className="text-2xl font-bold">DevTrip</span>
           </Link>
           <p className="text-sm text-muted-foreground">
-            Your interactive journey to master DevOps.
+            DevOps 마스터를 위한 인터랙티브 여정.
           </p>
           <div className="flex gap-4 mt-2">
             <Link href="#" aria-label="Github"><Github className="h-5 w-5 hover:text-primary" /></Link>
@@ -21,26 +21,26 @@ export function MarketingFooter() {
         </div>
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-3">
           <div>
-            <h3 className="font-semibold">Platform</h3>
+            <h3 className="font-semibold">플랫폼</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="#features" className="text-sm text-muted-foreground hover:text-primary">Features</Link></li>
-              <li><Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary">Pricing</Link></li>
-              <li><Link href="/missions" className="text-sm text-muted-foreground hover:text-primary">Missions</Link></li>
+              <li><Link href="#features" className="text-sm text-muted-foreground hover:text-primary">기능</Link></li>
+              <li><Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary">요금제</Link></li>
+              <li><Link href="/missions" className="text-sm text-muted-foreground hover:text-primary">미션</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">Company</h3>
+            <h3 className="font-semibold">회사</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Careers</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contact</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">회사 소개</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">채용</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">문의하기</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">Legal</h3>
+            <h3 className="font-semibold">법률</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Terms of Service</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Privacy Policy</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">서비스 이용약관</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">개인정보 처리방침</Link></li>
             </ul>
           </div>
         </div>

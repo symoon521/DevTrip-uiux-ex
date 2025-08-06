@@ -11,50 +11,50 @@ const missionsByStack: { [key: string]: Mission[] } = {
   kubernetes: [
     {
       id: "k8s-deployments",
-      title: "Fundamentals: Deployments",
+      title: "기초: 배포",
       difficulty: "Intermediate",
       estimatedTime: 45,
-      prerequisites: ["Docker Basics"],
+      prerequisites: ["Docker 기초"],
       stack: "kubernetes",
-      city: "Berlin",
+      city: "베를린",
     },
     {
       id: "k8s-services",
-      title: "Networking: Services & Ingress",
+      title: "네트워킹: 서비스 & 인그레스",
       difficulty: "Intermediate",
       estimatedTime: 60,
-      prerequisites: ["K8s Deployments"],
+      prerequisites: ["K8s 배포"],
       stack: "kubernetes",
-      city: "Munich",
+      city: "뮌헨",
     },
     {
       id: "k8s-hpa",
-      title: "Autoscaling: HPA",
+      title: "오토스케일링: HPA",
       difficulty: "Advanced",
       estimatedTime: 75,
-      prerequisites: ["K8s Services", "Prometheus"],
+      prerequisites: ["K8s 서비스", "Prometheus"],
       stack: "kubernetes",
-      city: "Hamburg",
+      city: "함부르크",
     },
   ],
   docker: [
     {
       id: "docker-basics",
-      title: "Containerize a Node.js App",
+      title: "Node.js 앱 컨테이너화하기",
       difficulty: "Beginner",
       estimatedTime: 30,
       prerequisites: [],
       stack: "docker",
-      city: "San Francisco",
+      city: "샌프란시스코",
     },
     {
       id: "docker-compose",
-      title: "Multi-Container with Compose",
+      title: "Compose로 멀티 컨테이너 만들기",
       difficulty: "Beginner",
       estimatedTime: 45,
-      prerequisites: ["Docker Basics"],
+      prerequisites: ["Docker 기초"],
       stack: "docker",
-      city: "New York",
+      city: "뉴욕",
     },
   ],
   // Add other stacks here
@@ -70,12 +70,12 @@ export default function MissionListPage({ params }: { params: { stack: string } 
         <Button variant="ghost" size="sm" className="mb-4" asChild>
           <Link href="/missions">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to World Map
+            세계 지도로 돌아가기
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold">Missions available in {stackName}</h1>
+        <h1 className="text-3xl font-bold">{stackName}에서 가능한 미션</h1>
         <p className="text-muted-foreground">
-          Select your next destination and start your mission.
+          다음 목적지를 선택하고 미션을 시작하세요.
         </p>
       </div>
 
@@ -88,9 +88,9 @@ export default function MissionListPage({ params }: { params: { stack: string } 
       ) : (
         <Alert>
             <Ticket className="h-4 w-4" />
-            <AlertTitle>No Flights Scheduled</AlertTitle>
+            <AlertTitle>예정된 항공편 없음</AlertTitle>
             <AlertDescription>
-              There are currently no missions available for the {stackName} destination. Please check back later or explore another technology.
+              현재 {stackName} 목적지에 대한 미션이 없습니다. 나중에 다시 확인하거나 다른 기술을 탐색해 보세요.
             </AlertDescription>
         </Alert>
       )}

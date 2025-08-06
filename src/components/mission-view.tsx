@@ -53,7 +53,7 @@ export function MissionView({ mission }: MissionViewProps) {
           <CardDescription>{mission.description}</CardDescription>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col min-h-0">
-          <p className="text-sm font-semibold mb-2 flex items-center gap-2"><CheckSquare className="h-4 w-4 text-primary" /> Mission Objectives</p>
+          <p className="text-sm font-semibold mb-2 flex items-center gap-2"><CheckSquare className="h-4 w-4 text-primary" /> 미션 목표</p>
           <ScrollArea className="flex-1 pr-4 -mr-4">
             <Accordion type="single" collapsible defaultValue="item-0">
               {mission.steps.map((step, index) => (
@@ -71,8 +71,8 @@ export function MissionView({ mission }: MissionViewProps) {
       <div className="lg:col-span-2 flex flex-col gap-6">
         <Card className="flex-1 flex flex-col">
             <CardHeader>
-                 <CardTitle className="flex items-center gap-2"><FileCode className="h-6 w-6" /> Live Terminal</CardTitle>
-                 <CardDescription>Execute commands in your sandboxed environment.</CardDescription>
+                 <CardTitle className="flex items-center gap-2"><FileCode className="h-6 w-6" /> 라이브 터미널</CardTitle>
+                 <CardDescription>샌드박스 환경에서 명령을 실행하세요.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4">
                 <div className="bg-gray-900 dark:bg-black rounded-lg p-4 font-mono text-sm text-white flex-1 flex flex-col">
@@ -84,11 +84,11 @@ export function MissionView({ mission }: MissionViewProps) {
                         value={terminalInput}
                         onChange={(e) => setTerminalInput(e.target.value)}
                         className="bg-transparent border-0 text-white resize-none flex-1 focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
-                        placeholder="Enter your commands here..."
+                        placeholder="여기에 명령어를 입력하세요..."
                     />
                 </div>
                 <div>
-                    <p className="text-xs text-muted-foreground mb-2">Common Commands</p>
+                    <p className="text-xs text-muted-foreground mb-2">자주 쓰는 명령어</p>
                     <div className="flex flex-wrap gap-2">
                         {commonCommands.map(cmd => (
                             <Button key={cmd} variant="outline" size="sm" onClick={() => handleCommandClick(cmd)}>{cmd}</Button>
@@ -99,8 +99,8 @@ export function MissionView({ mission }: MissionViewProps) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>System Monitoring</CardTitle>
-            <CardDescription>Real-time resource usage of your environment.</CardDescription>
+            <CardTitle>시스템 모니터링</CardTitle>
+            <CardDescription>환경의 실시간 리소스 사용량입니다.</CardDescription>
           </CardHeader>
           <CardContent className="h-[200px]">
              <ResponsiveContainer width="100%" height="100%">
@@ -131,7 +131,7 @@ export function MissionView({ mission }: MissionViewProps) {
         </Card>
         <div className="flex justify-end">
             <Button size="lg" onClick={handleSubmit}>
-                Submit for Assessment
+                평가를 위해 제출
                 <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
         </div>
