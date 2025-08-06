@@ -31,7 +31,7 @@ export function Passport() {
         {/* Cover */}
         <div className="absolute w-full h-full bg-blue-800 rounded-lg shadow-lg flex flex-col items-center justify-center backface-hidden z-20 group-hover:hidden animate-unfold-in">
           <BookUser className="w-24 h-24 text-yellow-300" />
-          <h2 className="text-4xl font-serif text-yellow-300 mt-4">여권</h2>
+          <h2 className="text-4xl font-serif text-yellow-300 mt-4 tracking-widest">PASSPORT</h2>
           <p className="text-lg text-yellow-200">DevTrip</p>
         </div>
 
@@ -41,7 +41,7 @@ export function Passport() {
             {/* Left Page (Info) */}
             <div className="w-1/2 bg-[#f4f1eA] p-6 flex flex-col relative">
                 <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
-                <h3 className="font-serif text-center text-lg text-gray-500 tracking-widest">여권</h3>
+                <h3 className="font-serif text-center text-lg text-gray-500 tracking-widest">PASSPORT</h3>
                 <div className="flex items-center gap-4 mt-6">
                     <Avatar className="w-24 h-24 border-4 border-gray-300">
                         <AvatarImage src="https://placehold.co/150x150.png" data-ai-hint="person avatar"/>
