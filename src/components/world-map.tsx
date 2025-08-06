@@ -44,7 +44,6 @@ export function WorldMap() {
                       top: `${dest.coords.y}%`, 
                       transform: 'translate(-50%, -50%)',
                       animationDelay: `${i * 0.1}s`,
-                      opacity: 0, /* Set initial opacity to 0 for animation */
                     }}
                 >
                     <div className="w-3 h-3 bg-primary rounded-full shadow-[0_0_10px] shadow-primary transition-all group-hover:scale-150"></div>
