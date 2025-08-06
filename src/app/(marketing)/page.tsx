@@ -1,9 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Map, Rocket, BrainCircuit, Terminal, ArrowRight, CheckCircle, Star } from "lucide-react"
+import { Map, Rocket, BrainCircuit, Terminal, ArrowRight, CircleCheckBig, Star } from "lucide-react"
 
 const technologies = [
   { name: "Docker", icon: "https://cdn.worldvectorlogo.com/logos/docker.svg" },
@@ -110,7 +110,7 @@ export default function LandingPage() {
                 <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">미션에서 다루는 주요 기술 스택</h2>
             </div>
             <div className="w-full overflow-hidden">
-                <div className="flex gap-8 animate-marquee-to-right">
+                <div className="flex gap-8 animate-marquee-to-left">
                     {[...technologies, ...technologies].map((tech, index) => (
                         <div key={`d1-${index}`} className="flex-shrink-0 w-24 h-24 flex items-center justify-center bg-secondary rounded-2xl">
                            <Image src={tech.icon} alt={tech.name} width={40} height={40} className="filter invert brightness-0" style={{ filter: tech.name === 'Prometheus' || tech.name === 'Helm' ? '' : 'invert(1)'}} />
@@ -166,8 +166,8 @@ export default function LandingPage() {
                       <CardContent>
                           <div className="text-4xl font-bold">₩0<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                           <ul className="space-y-2 text-left text-sm mt-6 text-muted-foreground">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 무료 미션 이용</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 기본 AI 피드백</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 무료 미션 이용</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 기본 AI 피드백</li>
                           </ul>
                       </CardContent>
                       <CardFooter>
@@ -185,10 +185,10 @@ export default function LandingPage() {
                       <CardContent>
                            <div className="text-4xl font-bold">₩29,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                           <ul className="space-y-2 text-left text-sm mt-6 text-muted-foreground">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전체 미션 라이브러리</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 고급 AI 평가</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전문가 수준 환경</li>
-                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 우선 지원</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 전체 미션 라이브러리</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 고급 AI 평가</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 전문가 수준 환경</li>
+                               <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 우선 지원</li>
                           </ul>
                       </CardContent>
                       <CardFooter>
@@ -203,10 +203,10 @@ export default function LandingPage() {
                       <CardContent>
                           <div className="text-4xl font-bold">₩50,000<span className="text-lg font-normal text-muted-foreground">/월</span></div>
                           <ul className="space-y-2 text-left text-sm mt-6 text-muted-foreground">
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 모든 비즈니스 기능</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 전담 기술 지원</li>
-                              <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 베타 기능 우선 이용</li>
-                               <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-primary" /> 1:1 멘토링 세션</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 모든 비즈니스 기능</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 전담 기술 지원</li>
+                              <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 베타 기능 우선 이용</li>
+                               <li className="flex items-center gap-2"><CircleCheckBig className="h-4 w-4 text-primary" /> 1:1 멘토링 세션</li>
                           </ul>
                       </CardContent>
                       <CardFooter>

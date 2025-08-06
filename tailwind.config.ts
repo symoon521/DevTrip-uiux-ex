@@ -98,6 +98,10 @@ to: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(0)' },
         },
+        'to-left': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -105,6 +109,7 @@ to: {
         'unfold-in': 'unfold-in 0.7s ease-in-out forwards',
         'fly-in': 'fly-in 0.5s ease-out forwards',
         'marquee-to-right': 'to-right 50s linear infinite',
+        'marquee-to-left': 'to-left 50s linear infinite',
       },
        perspective: {
         '1000': '1000px',
