@@ -30,12 +30,11 @@ export function WorldMap() {
     <TooltipProvider>
       <div className="relative w-full h-full bg-card rounded-lg border border-border/50 overflow-hidden">
         <Image 
-            src="https://placehold.co/1200x800.png"
+            src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
             alt="World Map" 
             layout="fill"
             objectFit="cover"
             className="opacity-20"
-            data-ai-hint="world map"
         />
         <div className="absolute inset-0 w-full h-full bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"></div>
         <div className="absolute inset-0 w-full h-full">
