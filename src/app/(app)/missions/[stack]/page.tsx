@@ -60,9 +60,10 @@ const missionsByStack: { [key: string]: Mission[] } = {
   // Add other stacks here
 };
 
-export default function MissionListPage({ params }: { params: { stack: string } }) {
-  const missions = missionsByStack[params.stack] || [];
-  const stackName = params.stack.charAt(0).toUpperCase() + params.stack.slice(1);
+export default async function MissionListPage({ params }: { params: Promise<{ stack: string }> }) {
+  const { stack } = await params;
+  const missions = missionsByStack[stack] || [];
+  const stackName = stack.charAt(0).toUpperCase() + stack.slice(1);
 
   return (
     <div className="flex flex-col gap-8">
