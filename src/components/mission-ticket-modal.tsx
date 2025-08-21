@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -18,33 +18,9 @@ import {
   QrCode
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-interface Mission {
-  id: string
-  title: string
-  difficulty: "Beginner" | "Intermediate" | "Advanced"
-  estimatedTime: number
-  prerequisites: string[]
-  rating: number
-}
-
-interface City {
-  id: string
-  name: string
-  missions: Mission[]
-  coords: { x: number; y: number }
-}
-
-interface Country {
-  id: string
-  name: string
-  stack: string
-  flag: string
-  coords: { x: number; y: number }
-  description: string
-  color: string
-  cities: City[]
-}
+import { Mission, City, Country } from "@/types/mission"
+import { DIFFICULTY_CONFIG, ANIMATION_DURATIONS } from "@/lib/constants"
+import { useKeyboardNavigation, useFocusTrap } from "@/hooks/use-keyboard-navigation"
 
 interface MissionTicketModalProps {
   mission: Mission
@@ -52,24 +28,6 @@ interface MissionTicketModalProps {
   country: Country
   isOpen: boolean
   onClose: () => void
-}
-
-const difficultyConfig = {
-  Beginner: { 
-    label: "초급", 
-    color: "bg-green-500 text-white",
-    gradient: "from-green-400 to-green-600"
-  },
-  Intermediate: { 
-    label: "중급", 
-    color: "bg-yellow-500 text-white",
-    gradient: "from-yellow-400 to-orange-500"
-  },
-  Advanced: { 
-    label: "고급", 
-    color: "bg-red-500 text-white",
-    gradient: "from-red-400 to-red-600"
-  }
 }
 
 export function MissionTicketModal({ 
@@ -80,8 +38,21 @@ export function MissionTicketModal({
   onClose 
 }: MissionTicketModalProps) {
   const [isBooking, setIsBooking] = useState(false)
+  const [showPlaneAnimation, setShowPlaneAnimation] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('')
+  const [showWhiteScreen, setShowWhiteScreen] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
   
-  const difficultyInfo = difficultyConfig[mission.difficulty]
+  const difficultyInfo = DIFFICULTY_CONFIG[mission.difficulty]
+  
+  // 키보드 네비게이션 추가
+  useKeyboardNavigation({
+    onEscape: onClose,
+    enabled: isOpen && !isBooking
+  })
+  
+  // 포커스 트랩 추가
+  useFocusTrap(modalRef, isOpen && !isBooking)
   const currentDate = new Date().toLocaleDateString('ko-KR')
   const flightNumber = `DT${Math.floor(Math.random() * 9000) + 1000}`
   const gate = `G${Math.floor(Math.random() * 50) + 1}`
@@ -89,26 +60,53 @@ export function MissionTicketModal({
 
   const handleBooking = () => {
     setIsBooking(true)
+    setShowPlaneAnimation(true)
+    
+    // 로딩 메시지들 (15초로 단축)
+    const messages = [
+      { text: '✈️ 탑승 중입니다...', delay: 0 },
+      { text: '🛫 이륙 준비 중...', delay: 1500 },
+      { text: '☁️ 구름을 뚫고 상승 중...', delay: 3000 },
+      { text: '🌟 안전고도에 도달했습니다', delay: 4500 },
+      { text: '🧭 목적지로 항로 설정 중...', delay: 6000 },
+      { text: '⚡ 제트엔진 최대 출력!', delay: 7500 },
+      { text: '🗺️ 미션 환경 준비 중...', delay: 9000 },
+      { text: '💻 개발환경 세팅 중...', delay: 10500 },
+      { text: '📚 학습자료 로딩 중...', delay: 12000 },
+      { text: '🎯 미션 시작 준비 완료!', delay: 13500 }
+    ]
+    
+    messages.forEach(({ text, delay }) => {
+      setTimeout(() => {
+        setLoadingMessage(text)
+      }, delay)
+    })
+    
+    // 14초 후에 화면 전환 효과 시작
     setTimeout(() => {
-      setIsBooking(false)
+      setShowWhiteScreen(true)
+    }, 14000)
+    
+    // 15초 후에 페이지 전환
+    setTimeout(() => {
       window.location.href = `/missions/${country.stack}/${mission.id}`
-    }, 2000)
+    }, ANIMATION_DURATIONS.MODAL_LOADING)
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-5xl p-0 bg-transparent border-0 shadow-none">
-        <div className="relative animate-fade-in-scale">
+        <div ref={modalRef} className="relative animate-fade-in-scale animate-ticket-float depth-effect" role="dialog" aria-labelledby="mission-title" aria-describedby="mission-description">
           <Button
             variant="ghost"
             size="icon"
-            className="absolute -top-12 right-0 z-50 bg-white/10 backdrop-blur hover:bg-white/20 text-white border border-white/20 rounded-full"
+            className="absolute -top-12 right-0 z-50 material-glass hover:bg-white/20 text-white border border-white/20 rounded-full animate-micro-bounce hover:scale-110 transition-all duration-300"
             onClick={onClose}
           >
             <X className="w-4 h-4" />
           </Button>
           
-          <Card className="overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50 border-0 shadow-2xl">
+          <Card className="overflow-hidden bg-gradient-to-br from-slate-50/95 to-blue-50/95 border border-white/20 shadow-2xl card-3d animate-premium-glow backdrop-blur-sm">
             <div className="relative">
               {/* 헤더 - 항공사 정보 */}
               <div className={cn(
@@ -303,27 +301,240 @@ export function MissionTicketModal({
                     onClick={handleBooking}
                     disabled={isBooking}
                     className={cn(
-                      "flex-1 py-6 text-lg font-bold text-white shadow-lg hover:scale-105 transition-all",
+                      "flex-1 py-6 text-lg font-bold text-white shadow-2xl hover:scale-105 transition-all duration-300",
                       "bg-gradient-to-r", difficultyInfo.gradient,
-                      isBooking && "animate-pulse"
+                      "hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] active:scale-95",
+                      "border border-white/20 relative overflow-hidden",
+                      isBooking && "animate-shimmer"
                     )}
+                    style={!isBooking ? {
+                      backgroundImage: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                      backgroundSize: '200% 100%'
+                    } : undefined}
                   >
                     {isBooking ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                        탑승 준비 중...
+                        <span className="relative">
+                          탑승 준비 중...
+                          <div className="absolute -inset-1 bg-white/20 rounded animate-pulse"></div>
+                        </span>
                       </>
                     ) : (
-                      <>
-                        <Plane className="w-5 h-5 mr-3" />
-                        지금 탑승하기
-                      </>
+                      <div className="relative flex items-center justify-center">
+                        <Plane className="w-5 h-5 mr-3 animate-bounce" />
+                        <span className="relative">
+                          지금 탑승하기
+                          <div className="absolute -bottom-1 left-0 w-full h-px bg-white/50 animate-pulse"></div>
+                        </span>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer pointer-events-none"></div>
+                      </div>
                     )}
                   </Button>
                 </div>
               </CardContent>
             </div>
           </Card>
+          
+          {/* 20초 비행기 애니메이션과 로딩 메시지들 */}
+          {showPlaneAnimation && (
+            <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden bg-gradient-to-br from-blue-900/30 via-indigo-900/40 to-slate-900/50">
+              {/* 하늘 배경 효과 - 천천히 변화 */}
+              <div className="absolute inset-0 opacity-0 animate-fade-in [animation-delay:0.5s] [animation-duration:2s] [animation-fill-mode:both]"
+                   style={{
+                     background: `
+                       radial-gradient(ellipse 60% 40% at 30% 30%, rgba(135,206,235,0.4), transparent),
+                       radial-gradient(ellipse 50% 35% at 70% 40%, rgba(176,196,222,0.3), transparent),
+                       radial-gradient(ellipse 70% 45% at 50% 80%, rgba(119,136,153,0.2), transparent)
+                     `
+                   }} />
+              
+              {/* 천천히 움직이는 비행기 - 13초 동안 */}
+              <div 
+                className="absolute opacity-100 animate-slow-diagonal-flight [animation-duration:13s] [animation-fill-mode:both]"
+                style={{
+                  right: '5%',
+                  bottom: '5%',
+                  transform: 'rotate(45deg)'
+                }}
+              >
+                <div className="relative">
+                  {/* 비행기 본체 */}
+                  <div className="relative w-28 h-28 flex items-center justify-center">
+                    <div className="relative">
+                      {/* 비행기 동체 */}
+                      <div className="absolute w-24 h-4 bg-gradient-to-r from-gray-300 via-white to-gray-200 rounded-full shadow-xl"
+                           style={{ transform: 'translate(-12px, 0)' }} />
+                      
+                      {/* 비행기 날개 */}
+                      <div className="absolute w-20 h-2 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-lg"
+                           style={{ transform: 'translate(-10px, -8px)' }} />
+                      <div className="absolute w-20 h-2 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-lg"
+                           style={{ transform: 'translate(-10px, 8px)' }} />
+                      
+                      {/* 비행기 꼬리날개 */}
+                      <div className="absolute w-8 h-2 bg-gradient-to-r from-gray-500 to-gray-300 rounded-full"
+                           style={{ transform: 'translate(-20px, -4px) rotate(25deg)' }} />
+                      <div className="absolute w-8 h-2 bg-gradient-to-r from-gray-500 to-gray-300 rounded-full"
+                           style={{ transform: 'translate(-20px, 4px) rotate(-25deg)' }} />
+                      
+                      {/* 비행기 창문 */}
+                      <div className="absolute w-3 h-2 bg-blue-200 rounded-full opacity-90"
+                           style={{ transform: 'translate(-3px, 0)' }} />
+                      <div className="absolute w-2 h-1 bg-blue-300 rounded-full opacity-70"
+                           style={{ transform: 'translate(3px, 0)' }} />
+                    </div>
+                  </div>
+                  
+                  {/* 강력한 제트 엔진 불꽃 */}
+                  <div className="absolute top-1/2 left-full transform -translate-y-1/2">
+                    {/* 메인 제트 스트림 - 더 길고 강렬하게 */}
+                    <div className="w-64 h-3 bg-gradient-to-r from-orange-600 via-yellow-400 via-red-500 to-transparent animate-pulse"
+                         style={{ filter: 'blur(1px)' }} />
+                    <div className="w-48 h-2 bg-gradient-to-r from-blue-500 via-cyan-400 to-transparent animate-pulse mt-[-3px]"
+                         style={{ filter: 'blur(0.5px)', animationDelay: '0.4s' }} />
+                    <div className="w-32 h-1 bg-gradient-to-r from-white via-yellow-200 to-transparent animate-pulse mt-[-2px]"
+                         style={{ filter: 'blur(0.3px)', animationDelay: '0.2s' }} />
+                    
+                    {/* 제트 화염 입자들 - 더 많이 */}
+                    {Array.from({ length: 20 }, (_, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-1.5 h-1.5 rounded-full animate-pulse"
+                        style={{
+                          left: `${i * 10}px`,
+                          top: `${-4 + Math.sin(i * 0.5) * 3}px`,
+                          background: i % 4 === 0 ? '#ff6b35' : i % 4 === 1 ? '#f7931e' : i % 4 === 2 ? '#fff200' : '#ff4444',
+                          animationDelay: `${i * 80}ms`,
+                          animationDuration: `${0.4 + Math.random() * 0.6}s`
+                        }}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* 비행기 주변 기류 효과 - 더 강하게 */}
+                  <div className="absolute -top-12 -left-12 w-48 h-24 opacity-40"
+                       style={{
+                         background: 'radial-gradient(ellipse 90% 50%, rgba(255,255,255,0.4), transparent 70%)',
+                         filter: 'blur(6px)',
+                         animation: 'pulse 1.5s infinite'
+                       }} />
+                  
+                  {/* 강화된 소닉 붐 효과 */}
+                  <div className="absolute -inset-8 opacity-70"
+                       style={{
+                         background: 'radial-gradient(ellipse 140% 40%, transparent 20%, rgba(255,255,255,0.3) 30%, transparent 70%)',
+                         filter: 'blur(3px)',
+                         animation: 'ping 1.8s infinite'
+                       }} />
+                </div>
+              </div>
+              
+              {/* 향상된 구름 효과들 - 3D 층감과 자연스러운 움직임 */}
+              {Array.from({ length: 15 }, (_, i) => (
+                <div
+                  key={`enhanced-cloud-${i}`}
+                  className="absolute opacity-0 animate-cloud-fade animate-cloud-drift animate-cloud-morph"
+                  style={{
+                    right: `${5 + i * 6}%`,
+                    bottom: `${10 + i * 5}%`,
+                    width: `${60 + i * 18}px`,
+                    height: `${30 + i * 12}px`,
+                    background: `radial-gradient(ellipse ${70 + Math.random() * 30}% ${50 + Math.random() * 20}% at ${40 + Math.random() * 20}% ${50 + Math.random() * 20}%, 
+                      rgba(255,255,255,${0.7 - i * 0.03}), 
+                      rgba(240,248,255,${0.5 - i * 0.025}) 60%, 
+                      rgba(220,235,255,${0.3 - i * 0.015}) 80%, 
+                      transparent 90%)`,
+                    borderRadius: `${50 + Math.random() * 30}% ${60 + Math.random() * 20}% ${40 + Math.random() * 40}% ${70 + Math.random() * 15}%`,
+                    filter: `blur(${1.5 + Math.random() * 2}px)`,
+                    transform: `rotate(${Math.random() * 30 - 15}deg) scale(${0.8 + Math.random() * 0.4})`,
+                    animationDelay: `${0.5 + i * 0.4}s`,
+                    animationDuration: `${6 + i * 0.8}s`
+                  }}
+                />
+              ))}
+              
+              {/* 메인 구름 덩어리들 - 볼륨감 있게 */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                {/* 큰 중앙 구름 */}
+                <div 
+                  className="w-[400px] h-[200px] opacity-80 animate-cloud-layer animate-cloud-morph"
+                  style={{
+                    background: `radial-gradient(ellipse 75% 55% at 45% 50%, 
+                      rgba(255,255,255,0.9), 
+                      rgba(245,252,255,0.75) 35%, 
+                      rgba(230,245,255,0.5) 60%, 
+                      rgba(210,235,255,0.25) 80%, 
+                      transparent 90%)`,
+                    borderRadius: '55% 65% 45% 75%',
+                    filter: 'blur(3px)',
+                    animationDuration: '20s',
+                    animationDelay: '2s'
+                  }}
+                />
+                
+                {/* 좌측 보조 구름 */}
+                <div 
+                  className="absolute w-[300px] h-[150px] opacity-70 animate-cloud-drift animate-cloud-morph"
+                  style={{
+                    left: '-80px',
+                    top: '20px',
+                    background: `radial-gradient(ellipse 65% 50% at 60% 45%, 
+                      rgba(255,255,255,0.85), 
+                      rgba(240,248,255,0.65) 45%, 
+                      rgba(220,240,255,0.35) 70%, 
+                      transparent 85%)`,
+                    borderRadius: '45% 75% 55% 35%',
+                    filter: 'blur(2.5px)',
+                    animationDuration: '25s',
+                    animationDelay: '1s'
+                  }}
+                />
+                
+                {/* 우측 보조 구름 */}
+                <div 
+                  className="absolute w-[250px] h-[120px] opacity-75 animate-cloud-fade animate-cloud-morph"
+                  style={{
+                    right: '-60px',
+                    top: '10px',
+                    background: `radial-gradient(ellipse 70% 55% at 40% 55%, 
+                      rgba(255,255,255,0.88), 
+                      rgba(235,248,255,0.68) 40%, 
+                      rgba(215,235,255,0.38) 75%, 
+                      transparent 88%)`,
+                    borderRadius: '35% 55% 65% 45%',
+                    filter: 'blur(2.8px)',
+                    animationDuration: '18s',
+                    animationDelay: '3s'
+                  }}
+                />
+              </div>
+              
+              {/* 로딩 메시지 표시 */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-black/70 backdrop-blur-md rounded-3xl px-10 py-8 border border-white/30 animate-fade-in-scale shadow-2xl">
+                  <div className="text-center text-white">
+                    <div className="text-3xl font-bold mb-4 animate-pulse bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
+                      {loadingMessage}
+                    </div>
+                    <div className="flex justify-center items-center gap-3 mt-6">
+                      <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-bounce [animation-delay:0ms] shadow-lg"></div>
+                      <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-bounce [animation-delay:200ms] shadow-lg"></div>
+                      <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-bounce [animation-delay:400ms] shadow-lg"></div>
+                    </div>
+                    <div className="mt-6 text-sm text-blue-100 font-medium tracking-wide">
+                      잠시만 기다려주세요...
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* 14초 후 화면 전환 효과 */}
+              {showWhiteScreen && (
+                <div className="absolute inset-0 bg-white opacity-0 animate-fade-in [animation-duration:1s] [animation-fill-mode:both]" />
+              )}
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import {
   Tooltip,
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, Globe, MapPin, Plane, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { CloudTransition } from "./world-map/cloud-transition"
 
 interface Country {
   id: string
@@ -211,11 +212,74 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null)
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const [isFlying, setIsFlying] = useState(false)
+  const [planePosition, setPlanePosition] = useState({ x: 50, y: 20 }) // 지도 상단 중앙에서 시작
+  const [targetPosition, setTargetPosition] = useState({ x: 50, y: 20 })
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [cloudTransition, setCloudTransition] = useState<'none' | 'closing' | 'opening'>('none')
 
   const handleCountryClick = (country: Country) => {
-    setSelectedCountry(country)
-    setSelectedCity(null)
+    // 이미 전환 중이거나 비행 중이면 무시
+    if (isTransitioning || isFlying) return
+    
+    setIsTransitioning(true)
+    
+    // 부드러운 전환을 위한 미세한 딜레이 추가
+    setTimeout(() => {
+      // Phase 1: 구름 닫기 애니메이션 (0.8초로 단축)
+      setCloudTransition('closing')
+      
+      setTimeout(() => {
+        // Phase 2: 화면 전환 (구름이 완전히 닫힌 상태에서)
+        setSelectedCountry(country)
+        setSelectedCity(null)
+        setPlanePosition({ x: 50, y: 20 })
+        
+        // Phase 3: 구름 열기 애니메이션 (0.8초로 단축) 
+        setTimeout(() => {
+          setCloudTransition('opening')
+          
+          setTimeout(() => {
+            // Phase 4: 전환 완료
+            setCloudTransition('none')
+            setIsTransitioning(false)
+          }, 800)
+        }, 300)
+      }, 800)
+    }, 100)
   }
+
+  // 비행기 애니메이션 효과
+  useEffect(() => {
+    if (isFlying) {
+      const duration = 2500 // 2.5초
+      const startTime = Date.now()
+      const startPosition = { x: 50, y: 20 } // 항상 고정된 시작점에서 출발
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        
+        // easeInOutQuart 애니메이션 함수 - 더 부드럽고 빠른 느낌
+        const easeInOutQuart = (t: number) => {
+          return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2
+        }
+        
+        const easedProgress = easeInOutQuart(progress)
+        
+        const newX = startPosition.x + (targetPosition.x - startPosition.x) * easedProgress
+        const newY = startPosition.y + (targetPosition.y - startPosition.y) * easedProgress
+        
+        setPlanePosition({ x: newX, y: newY })
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
+      }
+      
+      requestAnimationFrame(animate)
+    }
+  }, [isFlying, targetPosition])
 
   const handleCityClick = (city: City) => {
     setSelectedCity(city)
@@ -230,6 +294,8 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
   const handleBackToWorld = () => {
     setSelectedCountry(null)
     setSelectedCity(null)
+    setPlanePosition({ x: 50, y: 20 }) // 초기 위치로 리셋
+    setTargetPosition({ x: 50, y: 20 })
   }
 
   const handleBackToCountry = () => {
@@ -432,8 +498,9 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
                 <TooltipTrigger asChild>
                   <button 
                     className={cn(
-                      "absolute group transition-all duration-500 hover:scale-150 focus:outline-none focus:scale-150",
-                      "animate-pulse hover:animate-none country-marker"
+                      "absolute group transition-all duration-300 hover:scale-125 focus:outline-none focus:scale-125",
+                      "animate-pulse hover:animate-none country-marker",
+                      "hover:z-10 focus:z-10"
                     )}
                     style={{ 
                       left: `${country.coords.x}%`, 
@@ -446,30 +513,65 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
                     onMouseLeave={() => setHoveredCountry(null)}
                   >
                     <div className={cn(
-                      "relative w-6 h-6 rounded-full shadow-2xl transition-all duration-300",
+                      "relative w-8 h-8 rounded-full shadow-2xl transition-all duration-500",
                       "bg-gradient-to-br", country.color,
-                      "shadow-blue-500/50 group-hover:shadow-blue-400/80 animate-glow",
-                      hoveredCountry === country.id && "scale-150 shadow-blue-400/80"
+                      "shadow-blue-500/50 group-hover:shadow-blue-400/80 animate-premium-glow",
+                      "hover:shadow-[0_0_40px_rgba(59,130,246,0.8)]",
+                      hoveredCountry === country.id && "scale-125 shadow-blue-400/80"
                     )}>
-                      <div className="absolute inset-0 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors"></div>
+                      <div className="absolute inset-0 rounded-full bg-white/20 group-hover:bg-white/40 transition-all duration-300"></div>
+                      
+                      {/* 내부 펄스 효과 */}
+                      <div className="absolute inset-1 rounded-full bg-gradient-to-br from-white/30 to-transparent animate-pulse"></div>
+                      
+                      {/* 외부 링 */}
                       <div className={cn(
-                        "absolute -inset-2 rounded-full border-2 border-white/30 transition-all duration-300",
-                        "group-hover:border-white/60 group-hover:-inset-4",
-                        hoveredCountry === country.id && "border-white/60 -inset-4"
+                        "absolute -inset-3 rounded-full border-2 border-white/40 transition-all duration-500",
+                        "group-hover:border-white/80 group-hover:-inset-6 group-hover:animate-ping",
+                        hoveredCountry === country.id && "border-white/80 -inset-6 animate-ping"
                       )}></div>
-                      <div className="absolute inset-0 flex items-center justify-center text-xs">
+                      
+                      {/* 중간 링 */}
+                      <div className={cn(
+                        "absolute -inset-1 rounded-full border border-white/60 transition-all duration-300",
+                        "group-hover:border-white/90 group-hover:-inset-2",
+                        hoveredCountry === country.id && "border-white/90 -inset-2"
+                      )}></div>
+                      
+                      <div className="absolute inset-0 flex items-center justify-center text-sm group-hover:scale-110 transition-transform duration-300">
                         {country.flag}
                       </div>
+                      
+                      {/* 마이크로 파티클 */}
+                      {Array.from({ length: 4 }, (_, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            "absolute w-1 h-1 bg-white/80 rounded-full opacity-0 group-hover:opacity-100",
+                            "transition-all duration-500 animate-ping"
+                          )}
+                          style={{
+                            top: `${20 + Math.sin((i * Math.PI) / 2) * 25}px`,
+                            left: `${20 + Math.cos((i * Math.PI) / 2) * 25}px`,
+                            animationDelay: `${i * 200}ms`
+                          }}
+                        />
+                      ))}
                     </div>
                     
                     <div className={cn(
-                      "absolute top-8 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full",
-                      "bg-white/10 backdrop-blur border border-white/20 text-white text-sm font-medium",
-                      "opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap",
-                      "shadow-lg animate-fade-in-scale",
+                      "absolute top-8 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full",
+                      "material-glass text-white text-sm font-medium",
+                      "opacity-0 group-hover:opacity-100 transition-all duration-500 whitespace-nowrap",
+                      "shadow-2xl animate-fade-in-scale animate-micro-bounce",
+                      "hover:scale-105 cursor-pointer",
                       hoveredCountry === country.id && "opacity-100"
                     )}>
-                      {country.name}
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">{country.flag}</span>
+                        <span>{country.name}</span>
+                        <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                      </div>
                     </div>
                   </button>
                 </TooltipTrigger>
@@ -487,20 +589,76 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
               </Tooltip>
             ))}
             
+            {/* 비행기 애니메이션 */}
+            {isFlying && (
+              <div
+                className="absolute z-20 pointer-events-none transition-all duration-75 ease-linear"
+                style={{
+                  left: `${planePosition.x}%`,
+                  top: `${planePosition.y}%`,
+                  transform: `translate(-50%, -50%) rotate(${
+                    Math.atan2(targetPosition.y - planePosition.y, targetPosition.x - planePosition.x) * 180 / Math.PI + 90
+                  }deg)`,
+                }}
+              >
+                <div className="relative">
+                  {/* 비행기 궤적 */}
+                  <div className="absolute -top-20 left-1/2 w-1 h-20 bg-gradient-to-t from-blue-400/60 to-transparent transform -translate-x-1/2"></div>
+                  
+                  {/* 메인 비행기 */}
+                  <Plane className="w-10 h-10 text-white drop-shadow-2xl filter brightness-110" />
+                  
+                  {/* 글로우 효과들 */}
+                  <div className="absolute -inset-6 bg-blue-400/20 rounded-full animate-ping"></div>
+                  <div className="absolute -inset-4 bg-blue-300/30 rounded-full animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-white/40 rounded-full"></div>
+                  
+                  {/* 속도감을 위한 파티클 효과 */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+                    <div className="w-0.5 h-8 bg-gradient-to-t from-blue-300/80 to-transparent animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+{/* CloudTransition 컴포넌트 사용 */}
+            <CloudTransition cloudTransition={cloudTransition} />
+
             {/* 기술 스택 정보 카드 */}
             <div className="absolute bottom-4 left-4 animate-slide-in-bottom">
-              <div className="bg-white/10 backdrop-blur rounded-lg p-4 border border-white/20 glass">
-                <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
-                  <Globe className="w-4 h-4" />
-                  이용 가능한 기술
+              <div className="material-glass rounded-2xl p-6 border border-white/10 hover:bg-white/15 transition-all duration-300 card-3d">
+                <h3 className="text-white font-bold mb-4 flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <Globe className="w-5 h-5 text-blue-300" />
+                  </div>
+                  <span>이용 가능한 기술</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-blue-400/50 to-transparent"></div>
                 </h3>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {countries.map((country) => (
-                    <div key={country.id} className="flex items-center gap-2 text-blue-200">
-                      <span>{country.flag}</span>
-                      <span>{country.stack.toUpperCase()}</span>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  {countries.map((country, index) => (
+                    <div 
+                      key={country.id} 
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/10 transition-all duration-300 cursor-pointer group animate-micro-bounce"
+                      style={{
+                        animationDelay: `${index * 100}ms`
+                      }}
+                    >
+                      <span className="text-xl group-hover:scale-110 transition-transform duration-200">{country.flag}</span>
+                      <span className="text-blue-100 font-medium group-hover:text-white transition-colors">
+                        {country.stack.toUpperCase()}
+                      </span>
+                      <div className="w-1 h-1 bg-blue-400/60 rounded-full group-hover:bg-blue-300 group-hover:animate-ping transition-all"></div>
                     </div>
                   ))}
+                </div>
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <div className="flex items-center justify-between text-xs text-blue-200">
+                    <span>실시간 업데이트</span>
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span>ONLINE</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

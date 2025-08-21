@@ -33,8 +33,9 @@ const missionDetails: { [key: string]: Mission & { description: string; steps: {
   },
 };
 
-export default function MissionPage({ params }: { params: { mission: string } }) {
-  const mission = missionDetails[params.mission];
+export default async function MissionPage({ params }: { params: Promise<{ mission: string }> }) {
+  const { mission: missionId } = await params;
+  const mission = missionDetails[missionId];
 
   if (!mission) {
     return <div>미션을 찾을 수 없습니다.</div>;

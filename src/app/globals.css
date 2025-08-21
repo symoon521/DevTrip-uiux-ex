@@ -6,6 +6,413 @@ body {
   font-family: 'Pretendard', sans-serif;
 }
 
+/* 접근성 개선: 모션 감소 사용자를 위한 설정 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* 필수 애니메이션만 유지 (로딩 스피너 등) */
+  .preserve-animation {
+    animation-duration: revert !important;
+    transition-duration: revert !important;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --border: 0 0% 50%;
+    --primary: 210 100% 70%;
+  }
+}
+
+/* 글래스모피즘 및 현대적 효과를 위한 유틸리티 클래스 */
+.backdrop-blur-3xl {
+  backdrop-filter: blur(64px);
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 애니메이션 효과 */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 향상된 구름 애니메이션 - 현실적이고 3D */
+@keyframes cloud-drift {
+  0% { 
+    transform: translateX(-120px) translateY(0px) translateZ(0px) rotate(0deg) scale(1);
+    filter: blur(2px) brightness(1);
+  }
+  25% { 
+    transform: translateX(-60px) translateY(-15px) translateZ(10px) rotate(2deg) scale(1.05);
+    filter: blur(3px) brightness(1.1);
+  }
+  50% { 
+    transform: translateX(0px) translateY(-8px) translateZ(20px) rotate(-1deg) scale(1.1);
+    filter: blur(2.5px) brightness(1.15);
+  }
+  75% { 
+    transform: translateX(60px) translateY(-20px) translateZ(15px) rotate(1.5deg) scale(1.08);
+    filter: blur(3.5px) brightness(1.05);
+  }
+  100% { 
+    transform: translateX(120px) translateY(0px) translateZ(0px) rotate(0deg) scale(1);
+    filter: blur(2px) brightness(1);
+  }
+}
+
+@keyframes cloud-fade-in-out {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.7) translateY(20px);
+    filter: blur(5px);
+  }
+  15% { 
+    opacity: 0.4; 
+    transform: scale(0.85) translateY(10px);
+    filter: blur(4px);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0px);
+    filter: blur(2px);
+  }
+  85% { 
+    opacity: 0.6; 
+    transform: scale(1.2) translateY(-10px);
+    filter: blur(4px);
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(1.5) translateY(-20px);
+    filter: blur(8px);
+  }
+}
+
+@keyframes cloud-morph {
+  0% { 
+    border-radius: 50% 60% 70% 40%;
+    transform: skew(0deg, 0deg);
+  }
+  20% { 
+    border-radius: 65% 45% 55% 75%;
+    transform: skew(1deg, 0.5deg);
+  }
+  40% { 
+    border-radius: 40% 75% 60% 50%;
+    transform: skew(-0.5deg, 1deg);
+  }
+  60% { 
+    border-radius: 75% 50% 45% 65%;
+    transform: skew(0.8deg, -0.3deg);
+  }
+  80% { 
+    border-radius: 55% 70% 80% 35%;
+    transform: skew(-1deg, 0.7deg);
+  }
+  100% { 
+    border-radius: 50% 60% 70% 40%;
+    transform: skew(0deg, 0deg);
+  }
+}
+
+@keyframes cloud-puff {
+  0% { 
+    transform: scale(1) rotate(0deg) translateY(0px);
+    filter: blur(1px) brightness(1);
+    opacity: 0.9;
+  }
+  30% { 
+    transform: scale(1.4) rotate(3deg) translateY(-5px);
+    filter: blur(3px) brightness(1.1);
+    opacity: 0.6;
+  }
+  60% { 
+    transform: scale(1.8) rotate(-2deg) translateY(-10px);
+    filter: blur(6px) brightness(1.05);
+    opacity: 0.3;
+  }
+  100% { 
+    transform: scale(2.5) rotate(1deg) translateY(-15px);
+    filter: blur(12px) brightness(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes cloud-layer-move {
+  0% { 
+    transform: translateX(-8%) translateY(3%) scale(1);
+    filter: brightness(1);
+  }
+  25% { 
+    transform: translateX(2%) translateY(-1%) scale(1.02);
+    filter: brightness(1.05);
+  }
+  50% { 
+    transform: translateX(8%) translateY(-4%) scale(1.05);
+    filter: brightness(1.1);
+  }
+  75% { 
+    transform: translateX(2%) translateY(-1%) scale(1.02);
+    filter: brightness(1.05);
+  }
+  100% { 
+    transform: translateX(-8%) translateY(3%) scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* 새로운 고급 구름 애니메이션 */
+@keyframes cloud-volumetric {
+  0% { 
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+    box-shadow: 0 0 50px rgba(255,255,255,0.3);
+  }
+  50% { 
+    transform: perspective(1000px) rotateX(2deg) rotateY(5deg) scale3d(1.05, 1.03, 1);
+    box-shadow: 0 0 80px rgba(255,255,255,0.5);
+  }
+  100% { 
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+    box-shadow: 0 0 50px rgba(255,255,255,0.3);
+  }
+}
+
+@keyframes cloud-atmospheric {
+  0% { 
+    filter: blur(2px) contrast(1) saturate(1);
+    opacity: 0.8;
+  }
+  33% { 
+    filter: blur(3px) contrast(1.1) saturate(1.1);
+    opacity: 0.9;
+  }
+  66% { 
+    filter: blur(2.5px) contrast(1.05) saturate(0.95);
+    opacity: 0.85;
+  }
+  100% { 
+    filter: blur(2px) contrast(1) saturate(1);
+    opacity: 0.8;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-in {
+  animation: slide-in-from-top 0.3s ease-out;
+}
+
+/* 구름 애니메이션 클래스들 */
+.animate-cloud-drift {
+  animation: cloud-drift 15s linear infinite;
+}
+
+.animate-cloud-fade {
+  animation: cloud-fade-in-out 8s ease-in-out infinite;
+}
+
+.animate-cloud-morph {
+  animation: cloud-morph 12s ease-in-out infinite;
+}
+
+.animate-cloud-puff {
+  animation: cloud-puff 6s ease-out forwards;
+}
+
+.animate-cloud-layer {
+  animation: cloud-layer-move 20s ease-in-out infinite;
+}
+
+.animate-cloud-volumetric {
+  animation: cloud-volumetric 18s ease-in-out infinite;
+}
+
+.animate-cloud-atmospheric {
+  animation: cloud-atmospheric 14s ease-in-out infinite;
+}
+
+/* 줌 인 애니메이션 */
+@keyframes zoom-in-from-center {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-zoom-in-from-center {
+  animation: zoom-in-from-center 1.2s ease-out forwards;
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+/* 호버 효과 */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* 3D 변환을 위한 유틸리티 클래스 */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-6 {
+  transform: rotateY(6deg);
+}
+
+.rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+/* 향상된 글래스모피즘 효과 */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 커스텀 스크롤바 */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) rgba(51, 65, 85, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+/* 향상된 그라디언트 텍스트 */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 고급 호버 효과 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 성능 최적화를 위한 will-change */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* 향상된 focus 상태 */
+.focus-visible-ring {
+  transition: all 0.2s ease-in-out;
+}
+
+.focus-visible-ring:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
 @layer base {
   :root {
     --background: 240 10% 3.9%;
@@ -189,4 +596,398 @@ body {
 .mission-card-hover:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* 정확한 요구사항에 맞는 애니메이션들 */
+@keyframes plane-diagonal-flight {
+  0% {
+    transform: translate(0, 0) rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-30vw, -30vh) rotate(45deg) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-70vw, -70vh) rotate(45deg) scale(1.3);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-110vw, -110vh) rotate(45deg) scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-150vw, -150vh) rotate(45deg) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes slow-diagonal-flight {
+  0% {
+    transform: translate(0, 0) rotate(45deg) scale(1);
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-15vw, -15vh) rotate(45deg) scale(1.05);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-35vw, -35vh) rotate(45deg) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-60vw, -60vh) rotate(45deg) scale(1.2);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(-85vw, -85vh) rotate(45deg) scale(1.3);
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-105vw, -105vh) rotate(45deg) scale(1.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-120vw, -120vh) rotate(45deg) scale(1.5);
+    opacity: 0.7;
+  }
+}
+
+@keyframes screen-fade-out {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes delayed-screen-fade {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-50px, -50px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes screen-transition {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-merge-left {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cloud-merge-right {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cloud-disperse-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes cloud-disperse-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes ticket-float {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+  }
+  50% {
+    transform: translateY(-5px);
+    filter: drop-shadow(0 15px 35px rgba(0,0,0,0.15));
+  }
+}
+
+@keyframes premium-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 40px rgba(59, 130, 246, 0.1),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(59, 130, 246, 0.5),
+      0 0 60px rgba(59, 130, 246, 0.2),
+      0 0 90px rgba(59, 130, 246, 0.1),
+      inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes micro-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+/* 정확한 요구사항 애니메이션 클래스들 */
+.animate-plane-diagonal-flight {
+  animation: plane-diagonal-flight 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-screen-fade-out {
+  animation: screen-fade-out 0.7s ease-in-out forwards;
+}
+
+.animate-slow-diagonal-flight {
+  animation: slow-diagonal-flight 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes zoom-in-from-center {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-zoom-in-from-center {
+  animation: zoom-in-from-center 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-particle-float {
+  animation: particle-float 1.5s ease-out forwards;
+}
+
+.animate-screen-transition {
+  animation: screen-transition 0.5s ease-in-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+.animate-ticket-float {
+  animation: ticket-float 4s ease-in-out infinite;
+}
+
+.animate-premium-glow {
+  animation: premium-glow 3s ease-in-out infinite;
+}
+
+.animate-micro-bounce {
+  animation: micro-bounce 0.6s ease-in-out;
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* 3D 변환과 그림자를 활용한 깊이감 */
+.depth-effect {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-3d {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.card-3d:hover {
+  transform: translateY(-5px) rotateX(5deg) rotateY(2deg);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.15),
+    0 5px 15px rgba(0,0,0,0.1),
+    0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 고품질 그라디언트와 블러 효과 */
+.premium-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 25%,
+    rgba(219, 39, 119, 0.1) 50%,
+    rgba(249, 115, 22, 0.1) 75%,
+    rgba(34, 197, 94, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+/* 리치 텍스처와 머티리얼 디자인 */
+.material-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(25px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 28년차 디자이너의 미니멀한 여권 디자인 */
+.passport-container {
+  perspective: 1500px;
+  transform-style: preserve-3d;
+}
+
+.passport-book {
+  position: relative;
+  width: 280px; /* 실제 여권 크기 */
+  height: 400px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  margin: 0 auto;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+/* 호버 시 단순하게 가로로 펼쳐짐 */
+.passport-container:hover .passport-book {
+  width: 560px; /* 정확히 두 배 */
+}
+
+/* 여권 커버 (닫힌 상태) */
+.passport-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  z-index: 2;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  transform-origin: left center;
+}
+
+/* 내부 페이지 (열린 상태) */
+.passport-pages {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(135deg, #fefefe 0%, #f8f6f0 100%);
+  border-radius: 12px;
+  opacity: 0;
+  z-index: 1;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 호버 시 효과 */
+.passport-container:hover .passport-cover {
+  transform: rotateY(-175deg);
+}
+
+.passport-container:hover .passport-pages {
+  opacity: 1;
+}
+
+/* 페이지 가운데 경계선 */
+.passport-pages::before {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 1px;
+  height: 90%;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.1), transparent);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* 스탬프 애니메이션 - 단순하게 */
+.passport-container:hover .passport-pages .grid > div {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.passport-container:hover .passport-pages .grid > div:nth-child(1) { animation-delay: 0.1s; }
+.passport-container:hover .passport-pages .grid > div:nth-child(2) { animation-delay: 0.2s; }
+.passport-container:hover .passport-pages .grid > div:nth-child(3) { animation-delay: 0.3s; }
+.passport-container:hover .passport-pages .grid > div:nth-child(4) { animation-delay: 0.4s; }
+.passport-container:hover .passport-pages .grid > div:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
