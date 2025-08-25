@@ -124,10 +124,6 @@ export function PassportRedesigned() {
                 <div className="absolute bottom-6 left-6 w-1 h-1 bg-emerald-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
               </div>
               
-              {/* 미션 번호 배지 */}
-              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
-                {index + 1}
-              </div>
               
               <div className="relative z-10 space-y-4">
                 {/* 헤더 */}
