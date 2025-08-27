@@ -5,11 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Trophy, Shield, Globe, Star, MapPin, Calendar, User, Award } from "lucide-react"
 
 const completedMissions = [
-  { id: 1, name: "Docker 기초", country: "미국", date: "2023.10.26", city: "San Francisco", flag: "🇺🇸", level: "초급", points: 100 },
-  { id: 2, name: "K8s 배포", country: "독일", date: "2023.11.15", city: "Berlin", flag: "🇩🇪", level: "중급", points: 250 },
-  { id: 3, name: "ArgoCD 동기화", country: "일본", date: "2023.12.01", city: "Tokyo", flag: "🇯🇵", level: "중급", points: 300 },
-  { id: 4, name: "Helm 템플릿", country: "영국", date: "2024.01.20", city: "London", flag: "🇬🇧", level: "고급", points: 400 },
-  { id: 5, name: "Kafka 스트림", country: "브라질", date: "2024.02.18", city: "São Paulo", flag: "🇧🇷", level: "고급", points: 500 },
+  { id: 1, name: "Docker 기초", country: "미국", date: "2023.10.26", city: "San Francisco", flag: "🇺🇸", level: "초급" },
+  { id: 2, name: "K8s 배포", country: "독일", date: "2023.11.15", city: "Berlin", flag: "🇩🇪", level: "중급" },
+  { id: 3, name: "ArgoCD 동기화", country: "일본", date: "2023.12.01", city: "Tokyo", flag: "🇯🇵", level: "중급" },
+  { id: 4, name: "Helm 템플릿", country: "영국", date: "2024.01.20", city: "London", flag: "🇬🇧", level: "고급" },
+  { id: 5, name: "Kafka 스트림", country: "브라질", date: "2024.02.18", city: "São Paulo", flag: "🇧🇷", level: "고급" },
 ]
 
 export function PassportRedesigned() {
@@ -28,8 +28,7 @@ export function PassportRedesigned() {
     )
   }
 
-  const totalPoints = completedMissions.reduce((sum, mission) => sum + mission.points, 0)
-  const currentLevel = totalPoints >= 1200 ? "Expert" : totalPoints >= 800 ? "Advanced" : totalPoints >= 400 ? "Intermediate" : "Beginner"
+  const currentLevel = completedMissions.length >= 5 ? "Expert" : completedMissions.length >= 4 ? "Advanced" : completedMissions.length >= 2 ? "Intermediate" : "Beginner"
 
   return (
     <div className="w-full max-w-6xl mx-auto p-8 space-y-8">
@@ -72,10 +71,6 @@ export function PassportRedesigned() {
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30">
                 <Star className="w-5 h-5 text-yellow-400" />
                 <span className="text-white font-semibold">{currentLevel}</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-blue-500/20 border border-emerald-500/30">
-                <Trophy className="w-5 h-5 text-emerald-400" />
-                <span className="text-white font-semibold">{totalPoints.toLocaleString()} XP</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
                 <Globe className="w-5 h-5 text-purple-400" />
@@ -157,10 +152,6 @@ export function PassportRedesigned() {
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm">{mission.date}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Award className="w-4 h-4 text-yellow-400" />
-                    <span className="text-yellow-400 font-bold">{mission.points} XP</span>
-                  </div>
                 </div>
                 
                 {/* 확장 정보 */}
@@ -216,16 +207,16 @@ export function PassportRedesigned() {
             <div className="space-y-4">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">현재 레벨: {currentLevel}</span>
-                <span className="text-slate-400">{totalPoints} / 1500 XP</span>
+                <span className="text-slate-400">{completedMissions.length} / 6 미션</span>
               </div>
               <div className="w-full bg-slate-700/50 rounded-full h-3">
                 <div 
                   className="h-3 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500"
-                  style={{ width: `${Math.min((totalPoints / 1500) * 100, 100)}%` }}
+                  style={{ width: `${Math.min((completedMissions.length / 6) * 100, 100)}%` }}
                 ></div>
               </div>
               <p className="text-slate-400 text-sm">
-                다음 레벨까지 {Math.max(1500 - totalPoints, 0)} XP 필요
+                다음 레벨까지 {Math.max(6 - completedMissions.length, 0)} 미션 필요
               </p>
             </div>
           </div>
@@ -240,7 +231,7 @@ export function PassportRedesigned() {
                 <span className="text-2xl">🇰🇷</span>
                 <div className="flex-1">
                   <div className="font-semibold text-white">Terraform 인프라</div>
-                  <div className="text-sm text-slate-400">고급 • 600 XP</div>
+                  <div className="text-sm text-slate-400">고급</div>
                 </div>
                 <button className="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-400 text-sm border border-blue-500/30 hover:bg-blue-500/30 transition-colors">
                   시작
@@ -250,7 +241,7 @@ export function PassportRedesigned() {
                 <span className="text-2xl">🇸🇬</span>
                 <div className="flex-1">
                   <div className="font-semibold text-white">Monitoring 구축</div>
-                  <div className="text-sm text-slate-400">중급 • 350 XP</div>
+                  <div className="text-sm text-slate-400">중급</div>
                 </div>
                 <button className="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 text-sm border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors">
                   시작

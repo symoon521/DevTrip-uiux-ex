@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Map, UserCircle, LogOut, Settings, Plane, ChevronDown } from "lucide-react"
+import { LayoutDashboard, Map, UserCircle, LogOut, Settings, Plane, ChevronDown, Book } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -17,6 +17,7 @@ import {
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "대시보드" },
+  { href: "/guides", icon: Book, label: "기술 가이드" },
   { href: "/missions", icon: Map, label: "미션" },
   { href: "/profile", icon: UserCircle, label: "프로필" },
 ]

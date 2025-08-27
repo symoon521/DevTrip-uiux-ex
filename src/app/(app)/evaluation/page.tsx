@@ -207,7 +207,7 @@ export default function EvaluationPage() {
         </div>
 
         {/* 사용자 개요 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700/50 backdrop-blur-sm hover:scale-105 transition-transform duration-300">
             <CardContent className="p-8">
               <div className="text-center space-y-4">
@@ -250,24 +250,11 @@ export default function EvaluationPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700/50 backdrop-blur-sm hover:scale-105 transition-transform duration-300">
-            <CardContent className="p-8">
-              <div className="text-center space-y-4">
-                <div className="mx-auto p-4 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 w-fit">
-                  <Zap className="w-8 h-8 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-slate-400 text-sm font-medium mb-2">총 포인트</p>
-                  <p className="text-3xl font-bold text-white">{user.totalPoints.toLocaleString()}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* 메인 탭 인터페이스 */}
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm rounded-xl p-1">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm rounded-xl p-1 overflow-hidden">
             <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 text-slate-300 data-[state=active]:text-white font-medium py-3">
               개요
             </TabsTrigger>

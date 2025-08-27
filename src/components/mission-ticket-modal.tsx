@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -96,6 +96,7 @@ export function MissionTicketModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-5xl p-0 bg-transparent border-0 shadow-none">
+        <DialogTitle className="sr-only">미션 항공편 예약 - {mission.title}</DialogTitle>
         <div ref={modalRef} className="relative animate-fade-in-scale animate-ticket-float depth-effect" role="dialog" aria-labelledby="mission-title" aria-describedby="mission-description">
           <Button
             variant="ghost"
@@ -292,7 +293,7 @@ export function MissionTicketModal({
                   <Button
                     variant="outline"
                     onClick={onClose}
-                    className="flex-1 py-6 text-lg border-2 hover:bg-gray-50"
+                    className="flex-1 py-6 text-lg border-2 hover:bg-gray-50 text-gray-700 border-gray-300"
                     disabled={isBooking}
                   >
                     나중에 예약
@@ -301,7 +302,7 @@ export function MissionTicketModal({
                     onClick={handleBooking}
                     disabled={isBooking}
                     className={cn(
-                      "flex-1 py-6 text-lg font-bold text-white shadow-2xl hover:scale-105 transition-all duration-300",
+                      "flex-1 py-6 text-lg font-bold text-gray-700 shadow-2xl hover:scale-105 transition-all duration-300",
                       "bg-gradient-to-r", difficultyInfo.gradient,
                       "hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] active:scale-95",
                       "border border-white/20 relative overflow-hidden",
@@ -314,20 +315,20 @@ export function MissionTicketModal({
                   >
                     {isBooking ? (
                       <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-700 mr-3"></div>
                         <span className="relative">
                           탑승 준비 중...
-                          <div className="absolute -inset-1 bg-white/20 rounded animate-pulse"></div>
+                          <div className="absolute -inset-1 bg-gray-700/20 rounded animate-pulse"></div>
                         </span>
                       </>
                     ) : (
                       <div className="relative flex items-center justify-center">
-                        <Plane className="w-5 h-5 mr-3 animate-bounce" />
+                        <Plane className="w-5 h-5 mr-3 animate-bounce text-gray-700" />
                         <span className="relative">
                           지금 탑승하기
-                          <div className="absolute -bottom-1 left-0 w-full h-px bg-white/50 animate-pulse"></div>
+                          <div className="absolute -bottom-1 left-0 w-full h-px bg-gray-700/50 animate-pulse"></div>
                         </span>
-                        <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer pointer-events-none"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-gray-700/10 to-transparent animate-shimmer pointer-events-none"></div>
                       </div>
                     )}
                   </Button>
@@ -361,29 +362,7 @@ export function MissionTicketModal({
                 <div className="relative">
                   {/* 비행기 본체 */}
                   <div className="relative w-28 h-28 flex items-center justify-center">
-                    <div className="relative">
-                      {/* 비행기 동체 */}
-                      <div className="absolute w-24 h-4 bg-gradient-to-r from-gray-300 via-white to-gray-200 rounded-full shadow-xl"
-                           style={{ transform: 'translate(-12px, 0)' }} />
-                      
-                      {/* 비행기 날개 */}
-                      <div className="absolute w-20 h-2 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-lg"
-                           style={{ transform: 'translate(-10px, -8px)' }} />
-                      <div className="absolute w-20 h-2 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-lg"
-                           style={{ transform: 'translate(-10px, 8px)' }} />
-                      
-                      {/* 비행기 꼬리날개 */}
-                      <div className="absolute w-8 h-2 bg-gradient-to-r from-gray-500 to-gray-300 rounded-full"
-                           style={{ transform: 'translate(-20px, -4px) rotate(25deg)' }} />
-                      <div className="absolute w-8 h-2 bg-gradient-to-r from-gray-500 to-gray-300 rounded-full"
-                           style={{ transform: 'translate(-20px, 4px) rotate(-25deg)' }} />
-                      
-                      {/* 비행기 창문 */}
-                      <div className="absolute w-3 h-2 bg-blue-200 rounded-full opacity-90"
-                           style={{ transform: 'translate(-3px, 0)' }} />
-                      <div className="absolute w-2 h-1 bg-blue-300 rounded-full opacity-70"
-                           style={{ transform: 'translate(3px, 0)' }} />
-                    </div>
+                    <Plane className="w-20 h-20 text-white drop-shadow-2xl filter brightness-110 transform -rotate-[135deg]" />
                   </div>
                   
                   {/* 강력한 제트 엔진 불꽃 */}

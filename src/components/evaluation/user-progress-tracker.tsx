@@ -100,7 +100,7 @@ export function UserProgressTracker({ data, title = "학습 진행도" }: UserPr
       </CardHeader>
       <CardContent className="space-y-6">
         {/* 전체 성과 요약 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-700/30 border border-slate-600/50">
+        <div className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-slate-700/30 border border-slate-600/50">
           <div className="text-center">
             <div className="text-2xl font-bold text-white">{totalMissions}</div>
             <div className="text-xs text-slate-400">완료 미션</div>
@@ -108,10 +108,6 @@ export function UserProgressTracker({ data, title = "학습 진행도" }: UserPr
           <div className="text-center">
             <div className="text-2xl font-bold text-blue-400">{avgScore.toFixed(1)}</div>
             <div className="text-xs text-slate-400">평균 점수</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-purple-400">{totalPoints}</div>
-            <div className="text-xs text-slate-400">총 포인트</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-yellow-400">{totalStamps}</div>

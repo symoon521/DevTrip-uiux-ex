@@ -863,7 +863,7 @@ body {
 }
 
 .card-3d:hover {
-  transform: translateY(-5px) rotateX(5deg) rotateY(2deg);
+  transform: translateY(-5px);
   box-shadow: 
     0 20px 40px rgba(0,0,0,0.15),
     0 5px 15px rgba(0,0,0,0.1),
