@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import {
   Accordion,
@@ -15,18 +15,55 @@ import { Textarea } from "@/components/ui/textarea"
 import type { Mission } from "./mission-ticket"
 import { Cpu, MemoryStick, ArrowRight, ChevronsRight, FileCode, CheckSquare } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { TerminalComponent, type TerminalRef } from "./terminal"
 
 interface MissionViewProps {
   mission: Mission & { description: string; steps: { title: string; content: string }[] }
 }
 
-const monitoringData = [
-  { time: '10:00', cpu: 20, memory: 45 },
-  { time: '10:01', cpu: 22, memory: 48 },
-  { time: '10:02', cpu: 25, memory: 50 },
-  { time: '10:03', cpu: 23, memory: 47 },
-  { time: '10:04', cpu: 30, memory: 55 },
-  { time: '10:05', cpu: 35, memory: 60 },
+// Grafana 스타일 메트릭 데이터
+const cpuData = [
+  { time: '10:00', value: 23.5 },
+  { time: '10:01', value: 26.2 },
+  { time: '10:02', value: 31.8 },
+  { time: '10:03', value: 28.9 },
+  { time: '10:04', value: 35.2 },
+  { time: '10:05', value: 42.1 },
+  { time: '10:06', value: 38.7 },
+  { time: '10:07', value: 33.4 }
+];
+
+const memoryData = [
+  { time: '10:00', value: 68.3 },
+  { time: '10:01', value: 71.2 },
+  { time: '10:02', value: 73.8 },
+  { time: '10:03', value: 69.5 },
+  { time: '10:04', value: 75.9 },
+  { time: '10:05', value: 78.2 },
+  { time: '10:06', value: 76.1 },
+  { time: '10:07', value: 72.8 }
+];
+
+const networkData = [
+  { time: '10:00', in: 125.3, out: 89.7 },
+  { time: '10:01', in: 134.8, out: 95.2 },
+  { time: '10:02', in: 142.1, out: 102.8 },
+  { time: '10:03', in: 138.6, out: 98.4 },
+  { time: '10:04', in: 156.2, out: 112.3 },
+  { time: '10:05', in: 163.9, out: 118.7 },
+  { time: '10:06', in: 159.4, out: 115.2 },
+  { time: '10:07', in: 148.7, out: 107.9 }
+];
+
+const diskData = [
+  { time: '10:00', read: 45.2, write: 23.8 },
+  { time: '10:01', read: 52.6, write: 28.3 },
+  { time: '10:02', read: 48.9, write: 31.7 },
+  { time: '10:03', read: 41.3, write: 25.9 },
+  { time: '10:04', read: 58.7, write: 35.2 },
+  { time: '10:05', read: 62.1, write: 39.8 },
+  { time: '10:06', read: 56.4, write: 33.6 },
+  { time: '10:07', read: 49.8, write: 29.4 }
 ];
 
 const commonCommands = ["kubectl get pods", "kubectl get deployments", "kubectl apply -f", "ls -la", "cat"];
@@ -34,18 +71,19 @@ const commonCommands = ["kubectl get pods", "kubectl get deployments", "kubectl 
 export function MissionView({ mission }: MissionViewProps) {
   const router = useRouter();
   const [terminalInput, setTerminalInput] = useState("");
+  const terminalRef = useRef<TerminalRef>(null);
 
   const handleCommandClick = (command: string) => {
-    setTerminalInput(prev => `${prev}${prev ? '\n' : ''}${command} `)
+    terminalRef.current?.sendCommand(command)
   }
 
   const handleSubmit = () => {
     // In a real app, you would save the state and then navigate.
-    router.push(`/missions/${mission.stack}/${mission.id}/assessment`);
+    router.push(`/evaluation`);
   };
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6 h-full">
+    <div className="grid lg:grid-cols-4 gap-6 h-full">
       {/* Left Panel: Mission Details */}
       <Card className="lg:col-span-1 flex flex-col">
         <CardHeader>
@@ -68,25 +106,27 @@ export function MissionView({ mission }: MissionViewProps) {
       </Card>
 
       {/* Right Panel: Terminal and Monitoring */}
-      <div className="lg:col-span-2 flex flex-col gap-6">
+      <div className="lg:col-span-3 flex flex-col gap-6">
         <Card className="flex-1 flex flex-col">
             <CardHeader>
-                 <CardTitle className="flex items-center gap-2"><FileCode className="h-6 w-6" /> 라이브 터미널</CardTitle>
-                 <CardDescription>샌드박스 환경에서 명령을 실행하세요.</CardDescription>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <CardTitle className="flex items-center gap-2"><FileCode className="h-6 w-6" /> 실습 터미널</CardTitle>
+                        <CardDescription>실제 터미널 환경에서 명령을 실행하세요.</CardDescription>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm">
+                            임시 저장
+                        </Button>
+                        <Button size="sm" onClick={handleSubmit}>
+                            평가를 위해 제출
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4">
-                <div className="bg-gray-900 dark:bg-black rounded-lg p-4 font-mono text-sm text-white flex-1 flex flex-col">
-                    <div className="flex items-center gap-2 mb-2 text-gray-400">
-                        <ChevronsRight className="h-4 w-4 text-green-400"/>
-                        <span>user@devtrip:~$</span>
-                    </div>
-                    <Textarea 
-                        value={terminalInput}
-                        onChange={(e) => setTerminalInput(e.target.value)}
-                        className="bg-transparent border-0 text-white resize-none flex-1 focus-visible:ring-0 focus-visible:ring-offset-0 p-0"
-                        placeholder="여기에 명령어를 입력하세요..."
-                    />
-                </div>
+                <TerminalComponent ref={terminalRef} className="flex-1" />
                 <div>
                     <p className="text-xs text-muted-foreground mb-2">자주 쓰는 명령어</p>
                     <div className="flex flex-wrap gap-2">
@@ -97,43 +137,192 @@ export function MissionView({ mission }: MissionViewProps) {
                 </div>
             </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>시스템 모니터링</CardTitle>
-            <CardDescription>환경의 실시간 리소스 사용량입니다.</CardDescription>
-          </CardHeader>
-          <CardContent className="h-[200px]">
-             <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={monitoringData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                    <defs>
-                        <linearGradient id="colorCpu" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorMemory" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="hsl(var(--accent))" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="hsl(var(--accent))" stopOpacity={0}/>
-                        </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="time" tickLine={false} axisLine={false} tickMargin={10} fontSize={12} />
-                    <YAxis tickLine={false} axisLine={false} tickMargin={10} fontSize={12} unit="%" />
-                    <Tooltip contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        borderColor: 'hsl(var(--border))',
-                        borderRadius: 'var(--radius)',
-                    }}/>
-                    <Area type="monotone" dataKey="cpu" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorCpu)" name="CPU" unit="%" />
-                    <Area type="monotone" dataKey="memory" stroke="hsl(var(--accent))" fillOpacity={1} fill="url(#colorMemory)" name="Memory" unit="%" />
+        
+        {/* Grafana 스타일 메트릭 대시보드 */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* CPU 사용률 */}
+          <Card className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border-slate-700/50">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-slate-200">CPU Usage</CardTitle>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                  <span className="text-xs text-slate-400">Live</span>
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-white">
+                {cpuData[cpuData.length - 1].value.toFixed(1)}%
+              </div>
+            </CardHeader>
+            <CardContent className="h-[120px] p-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={cpuData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#3b82f6" 
+                    strokeWidth={2}
+                    fill="url(#cpuGradient)" 
+                  />
                 </AreaChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <div className="flex justify-end">
-            <Button size="lg" onClick={handleSubmit}>
-                평가를 위해 제출
-                <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* 메모리 사용률 */}
+          <Card className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border-slate-700/50">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-slate-200">Memory Usage</CardTitle>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                  <span className="text-xs text-slate-400">Live</span>
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-white">
+                {memoryData[memoryData.length - 1].value.toFixed(1)}%
+              </div>
+            </CardHeader>
+            <CardContent className="h-[120px] p-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={memoryData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="memoryGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#10b981" 
+                    strokeWidth={2}
+                    fill="url(#memoryGradient)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* 네트워크 I/O */}
+          <Card className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border-slate-700/50">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-slate-200">Network I/O</CardTitle>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                  <span className="text-xs text-slate-400">Live</span>
+                </div>
+              </div>
+              <div className="flex gap-4 text-sm">
+                <div>
+                  <span className="text-slate-400">In:</span>
+                  <span className="ml-1 font-semibold text-purple-400">
+                    {networkData[networkData.length - 1].in.toFixed(1)} MB/s
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-400">Out:</span>
+                  <span className="ml-1 font-semibold text-orange-400">
+                    {networkData[networkData.length - 1].out.toFixed(1)} MB/s
+                  </span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="h-[120px] p-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={networkData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="networkInGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="networkOutGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f97316" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area 
+                    type="monotone" 
+                    dataKey="in" 
+                    stroke="#a855f7" 
+                    strokeWidth={2}
+                    fill="url(#networkInGradient)" 
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="out" 
+                    stroke="#f97316" 
+                    strokeWidth={2}
+                    fill="url(#networkOutGradient)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* 디스크 I/O */}
+          <Card className="bg-gradient-to-br from-slate-900/50 to-slate-800/50 border-slate-700/50">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium text-slate-200">Disk I/O</CardTitle>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                  <span className="text-xs text-slate-400">Live</span>
+                </div>
+              </div>
+              <div className="flex gap-4 text-sm">
+                <div>
+                  <span className="text-slate-400">Read:</span>
+                  <span className="ml-1 font-semibold text-cyan-400">
+                    {diskData[diskData.length - 1].read.toFixed(1)} MB/s
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-400">Write:</span>
+                  <span className="ml-1 font-semibold text-yellow-400">
+                    {diskData[diskData.length - 1].write.toFixed(1)} MB/s
+                  </span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="h-[120px] p-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={diskData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="diskReadGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="diskWriteGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#eab308" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#eab308" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area 
+                    type="monotone" 
+                    dataKey="read" 
+                    stroke="#06b6d4" 
+                    strokeWidth={2}
+                    fill="url(#diskReadGradient)" 
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="write" 
+                    stroke="#eab308" 
+                    strokeWidth={2}
+                    fill="url(#diskWriteGradient)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

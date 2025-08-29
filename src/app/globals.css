@@ -566,6 +566,14 @@ body {
   animation: to-left 50s linear infinite;
 }
 
+@keyframes infinite-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.animate-infinite-scroll {
+  animation: infinite-scroll 30s linear infinite;
+}
+
 /* DevTrip 미션 시스템 전용 애니메이션 */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }

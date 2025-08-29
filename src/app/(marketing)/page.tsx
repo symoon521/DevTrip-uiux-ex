@@ -113,9 +113,9 @@ export default function LandingPage() {
                 <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">미션에서 다루는 주요 기술 스택</h2>
             </div>
             <div className="w-full overflow-hidden">
-                <div className="flex gap-8 animate-marquee-to-left">
-                    {[...technologies, ...technologies].map((tech, index) => (
-                        <div key={`d1-${index}`} className="flex-shrink-0 w-24 h-24 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10">
+                <div className="flex gap-8 animate-infinite-scroll">
+                    {[...technologies, ...technologies, ...technologies].map((tech, index) => (
+                        <div key={`tech-${index}`} className="flex-shrink-0 w-24 h-24 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10">
                            <Image src={tech.icon} alt={tech.name} width={50} height={50} />
                         </div>
                     ))}

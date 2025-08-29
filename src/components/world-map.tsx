@@ -625,7 +625,7 @@ export function WorldMap({ onMissionSelect }: WorldMapProps) {
             <CloudTransition cloudTransition={cloudTransition} />
 
             {/* 기술 스택 정보 카드 - 컨테이너 하단 밖으로 더 아래로 이동 */}
-            <div className="absolute left-8 animate-slide-in-bottom max-w-xs z-20" style={{bottom: '-390px', left:'15px'}}>
+            <div className="absolute left-8 animate-slide-in-bottom max-w-xs z-20" style={{bottom: '-290px', left:'15px'}}>
               <div className="material-glass rounded-xl p-3 border border-white/10 hover:bg-white/15 transition-all duration-300 card-3d">
                 <h3 className="text-white font-bold mb-2 flex items-center gap-2 text-xs">
                   <div className="p-1 bg-blue-500/20 rounded-lg">
