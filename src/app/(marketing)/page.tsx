@@ -1,20 +1,22 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Map, Rocket, BrainCircuit, Terminal, ArrowRight, CircleCheckBig, Star } from "lucide-react"
 
 const technologies = [
-  { name: "Docker", icon: "https://cdn.worldvectorlogo.com/logos/docker.svg" },
-  { name: "Kubernetes", icon: "https://cdn.worldvectorlogo.com/logos/kubernetes.svg" },
-  { name: "Jenkins", icon: "https://cdn.worldvectorlogo.com/logos/jenkins.svg" },
-  { name: "ArgoCD", icon: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png" },
-  { name: "Kafka", icon: "https://cdn.worldvectorlogo.com/logos/apache-kafka.svg" },
-  { name: "Prometheus", icon: "https://prometheus.io/assets/prometheus_logo_grey.svg" },
-  { name: "Helm", icon: "https://helm.sh/img/helm.svg" },
-  { name: "Terraform", icon: "https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg" },
-  { name: "Ansible", icon: "https://www.vectorlogo.zone/logos/ansible/ansible-icon.svg" },
+  { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original-wordmark.svg" },
+  { name: "Kubernetes", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain-wordmark.svg" },
+  { name: "Jenkins", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" },
+  { name: "Terraform", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original-wordmark.svg" },
+  { name: "Ansible", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original-wordmark.svg" },
+  { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+  { name: "GitLab", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original-wordmark.svg" },
+  { name: "Nginx", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" },
+  { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
 ];
 
 
@@ -44,37 +46,38 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      name: "Alex Johnson",
+      name: "WildMental",
       role: "DevOps Engineer, TechCorp",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "man portrait",
       text: "DevTrip은 게임 체인저입니다. 실제 경험에 가장 가까운 핸즈온 랩을 찾았습니다. 복잡한 개념을 시각화하는 방식은 타의 추종을 불허합니다.",
     },
     {
-      name: "Samantha Lee",
-      role: "Cloud Architect, Stratosphere Inc.",
+      name: "MindSetting",
+      role: "10x Infra Engineer, AWS KR",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "woman portrait",
       text: "AI 피드백 덕분에 제가 저지르고 있는지도 몰랐던 실수들을 발견할 수 있었습니다. 제 기술이 극적으로 향상되었어요. 모든 클라우드 전문가에게 추천합니다.",
     },
      {
-      name: "김민준",
-      role: "SRE, 카카오",
+      name: "YesDevReady",
+      role: "Infinite Cloud Engineer, Google KR",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "korean man portrait",
       text: "국내에 이런 플랫폼이 있다는 것이 놀랍습니다. 실제 현업과 유사한 환경에서 마음껏 테스트하고 배울 수 있어 신입 교육용으로도 도입을 검토 중입니다.",
     },
     {
-      name: "Isabella Rossi",
-      role: "Software Developer, CodeWeavers",
+      name: "Frog_DY",
+      role: "DevOps Engineer, Microsoft KR",
       avatar: "https://placehold.co/100x100.png",
       dataAiHint: "italian woman portrait",
       text: "개발자로서 DevOps 지식은 필수라고 생각했습니다. DevTrip은 딱딱한 문서를 읽는 것보다 훨씬 재미있고 효과적으로 학습할 수 있는 최고의 방법입니다.",
     },
   ]
 
+
   return (
-    <div className="flex flex-col min-h-[100dvh] bg-background">
+    <div className="flex flex-col min-h-[100dvh] bg-background relative">
       <main className="flex-1">
         <section className="relative w-full pt-32 pb-20 md:pt-48 md:pb-32 lg:pt-56 lg:pb-40">
             <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#161616_1px,transparent_1px),linear-gradient(to_bottom,#161616_1px,transparent_1px)] bg-[size:4rem_4rem]"><div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#0ea5e9,transparent)] opacity-20"></div></div>
@@ -112,8 +115,8 @@ export default function LandingPage() {
             <div className="w-full overflow-hidden">
                 <div className="flex gap-8 animate-marquee-to-left">
                     {[...technologies, ...technologies].map((tech, index) => (
-                        <div key={`d1-${index}`} className="flex-shrink-0 w-24 h-24 flex items-center justify-center bg-secondary rounded-2xl">
-                           <Image src={tech.icon} alt={tech.name} width={40} height={40} className="filter invert brightness-0" style={{ filter: tech.name === 'Prometheus' || tech.name === 'Helm' ? '' : 'invert(1)'}} />
+                        <div key={`d1-${index}`} className="flex-shrink-0 w-24 h-24 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10">
+                           <Image src={tech.icon} alt={tech.name} width={50} height={50} />
                         </div>
                     ))}
                 </div>

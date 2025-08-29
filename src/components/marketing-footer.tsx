@@ -39,8 +39,8 @@ export function MarketingFooter() {
           <div>
             <h3 className="font-semibold">법률</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">서비스 이용약관</Link></li>
-              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">개인정보 처리방침</Link></li>
+              <li><Link href="/terms" className="text-sm text-muted-foreground hover:text-primary">서비스 이용약관</Link></li>
+              <li><Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary">개인정보 처리방침</Link></li>
             </ul>
           </div>
         </div>

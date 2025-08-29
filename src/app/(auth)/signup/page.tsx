@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -20,13 +21,13 @@ const KakaoIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">다시 오신 것을 환영합니다</CardTitle>
+        <CardTitle className="text-2xl">계정 만들기</CardTitle>
         <CardDescription>
-          DevTrip 계정에 로그인하려면 아래에 이메일을 입력하세요.
+          DevTrip에 오신 것을 환영합니다. 새 계정을 만들어보세요.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -50,6 +51,16 @@ export default function LoginPage() {
             </span>
           </div>
         </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="firstName">이름</Label>
+            <Input id="firstName" placeholder="홍" required />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="lastName">성</Label>
+            <Input id="lastName" placeholder="길동" required />
+          </div>
+        </div>
         <div className="grid gap-2">
           <Label htmlFor="email">이메일</Label>
           <Input id="email" type="email" placeholder="m@example.com" required />
@@ -58,15 +69,32 @@ export default function LoginPage() {
           <Label htmlFor="password">비밀번호</Label>
           <Input id="password" type="password" required />
         </div>
+        <div className="grid gap-2">
+          <Label htmlFor="confirmPassword">비밀번호 확인</Label>
+          <Input id="confirmPassword" type="password" required />
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox id="terms" />
+          <Label htmlFor="terms" className="text-sm font-normal">
+            <Link href="/terms" className="text-primary hover:underline">
+              이용약관
+            </Link>{" "}
+            및{" "}
+            <Link href="/privacy" className="text-primary hover:underline">
+              개인정보처리방침
+            </Link>
+            에 동의합니다.
+          </Label>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Button className="w-full" asChild>
-            <Link href="/dashboard">로그인</Link>
+            <Link href="/dashboard">계정 만들기</Link>
         </Button>
         <div className="text-center text-sm text-muted-foreground">
-          계정이 없으신가요?{" "}
-          <Link href="/signup" className="underline text-primary">
-            회원가입
+          이미 계정이 있으신가요?{" "}
+          <Link href="/login" className="underline text-primary">
+            로그인
           </Link>
         </div>
       </CardFooter>

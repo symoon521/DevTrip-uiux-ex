@@ -16,20 +16,23 @@ const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "대시보드" },
   { href: "/missions", icon: Map, label: "미션" },
   { href: "/profile", icon: UserCircle, label: "프로필" },
+  { href: "/settings", icon: Settings, label: "설정" },
 ]
 
 export function AppHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="md:hidden flex items-center h-16 px-4 border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">네비게이션 메뉴 토글</span>
-          </Button>
-        </SheetTrigger>
+    <>
+      {/* Mobile Header */}
+      <header className="md:hidden flex items-center h-16 px-4 border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">네비게이션 메뉴 토글</span>
+            </Button>
+          </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-0 bg-card border-r">
           <div className="p-4 border-b">
             <Link href="/dashboard" className="flex items-center gap-2" prefetch={false}>
@@ -67,14 +70,15 @@ export function AppHeader() {
             </div>
           </div>
         </SheetContent>
-      </Sheet>
-      <div className="flex-1 flex justify-center">
-        <Link href="/dashboard" className="flex items-center gap-2" prefetch={false}>
-            <Plane className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">DevTrip</span>
-        </Link>
-      </div>
-      <div className="w-10"></div>
-    </header>
+        </Sheet>
+        <div className="flex-1 flex justify-center">
+          <Link href="/dashboard" className="flex items-center gap-2" prefetch={false}>
+              <Plane className="h-6 w-6 text-primary" />
+              <span className="text-xl font-bold">DevTrip</span>
+          </Link>
+        </div>
+        <div className="w-10"></div>
+      </header>
+    </>
   )
 }

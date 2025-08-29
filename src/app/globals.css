@@ -2,8 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Next.js 로딩 스피너 완전 제거 */
+[data-nextjs-scroll-focus-boundary] {
+  display: contents;
+}
+
+/* Next.js 로딩 애니메이션 완전 비활성화 */
+svg[data-next-mark-loading],
+svg[data-next-mark-loading="true"],
+svg[data-next-mark-loading="false"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 모든 Next.js 로딩 관련 요소 숨김 */
+*[data-next-mark-loading] {
+  display: none !important;
+}
+
+/* 로딩 인디케이터 전체 숨김 */
+div[style*="position: fixed"] svg,
+div[style*="z-index: 9999"] svg,
+div[style*="pointer-events: none"] svg {
+  display: none !important;
+}
+
+/* Next.js 특정 로고 ID로 타겟팅 */
+#next_logo_paint0_linear_1357_10853,
+#next_logo_paint1_linear_1357_10853,
+#next_logo_mask0,
+svg[viewBox="0 0 40 40"] {
+  display: none !important;
+}
+
+/* 모든 Next.js 로딩 관련 SVG 제거 */
+svg g[transform*="translate(8.5, 13)"] {
+  display: none !important;
+}
+
+/* 너비 40px 높이 40px인 SVG 중 Next.js 로고 제거 */
+svg[width="40"][height="40"] {
+  display: none !important;
+}
+
 body {
   font-family: 'Pretendard', sans-serif;
+}
+
+/* 전체 스크롤바 숨김 */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* 접근성 개선: 모션 감소 사용자를 위한 설정 */
@@ -882,6 +937,11 @@ body {
   );
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+/* Radial gradient utility for landing page */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
 }
 
 /* 리치 텍스처와 머티리얼 디자인 */

@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // 로딩 인디케이터 비활성화
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
   images: {
     remotePatterns: [
       {
@@ -66,6 +71,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'raw.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.jsdelivr.net',
         port: '',
         pathname: '/**',
       },

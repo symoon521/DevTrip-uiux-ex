@@ -23,7 +23,7 @@ export function MarketingHeader() {
           <Plane className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold">DevTrip</span>
         </Link>
-        <nav className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-6 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -34,13 +34,8 @@ export function MarketingHeader() {
               {link.label}
             </Link>
           ))}
-        </nav>
-        <div className="hidden items-center gap-4 md:flex">
           <Button variant="ghost" asChild>
             <Link href="/login">로그인</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/login">여정 시작하기</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -66,9 +61,6 @@ export function MarketingHeader() {
             <div className="flex flex-col gap-4 w-full pt-4 border-t">
               <Button variant="ghost" asChild className="w-full">
                 <Link href="/login">로그인</Link>
-              </Button>
-              <Button asChild className="w-full">
-                <Link href="/login">여정 시작하기</Link>
               </Button>
             </div>
           </nav>
