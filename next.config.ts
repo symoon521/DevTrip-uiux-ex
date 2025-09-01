@@ -10,19 +10,14 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
-  },
-  // 로딩 인디케이터 비활성화
-  devIndicators: {
-    buildActivity: false,
-    buildActivityPosition: 'bottom-right',
   },
   images: {
     remotePatterns: [

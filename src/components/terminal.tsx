@@ -10,6 +10,8 @@ interface TerminalComponentProps {
 
 export interface TerminalRef {
   sendCommand: (command: string) => void
+  connectWebSocket: (websocketUrl: string) => void
+  disconnectWebSocket: () => void
 }
 
 const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
@@ -19,6 +21,9 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
     const fitAddon = useRef<any>(null)
     const [isClient, setIsClient] = useState(false)
     const sendCommandRef = useRef<(command: string) => void>(() => {})
+    const connectWebSocketRef = useRef<(url: string) => void>(() => {})
+    const disconnectWebSocketRef = useRef<() => void>(() => {})
+    const websocketRef = useRef<WebSocket | null>(null)
 
     useEffect(() => {
       setIsClient(true)
@@ -26,7 +31,9 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
 
     // useImperativeHandle을 useEffect 밖으로 이동
     useImperativeHandle(ref, () => ({
-      sendCommand: (command: string) => sendCommandRef.current(command)
+      sendCommand: (command: string) => sendCommandRef.current(command),
+      connectWebSocket: (url: string) => connectWebSocketRef.current(url),
+      disconnectWebSocket: () => disconnectWebSocketRef.current()
     }), [])
 
     useEffect(() => {
@@ -41,7 +48,11 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
         ])
         
         // CSS도 동적으로 로드
-        await import('@xterm/xterm/css/xterm.css')
+        try {
+          await import('@xterm/xterm/css/xterm.css')
+        } catch (e) {
+          console.warn('Could not load xterm CSS:', e)
+        }
 
         // Terminal 인스턴스 생성
         terminal.current = new Terminal({
@@ -53,7 +64,7 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
             foreground: '#e2e8f0',
             cursor: '#3b82f6',
             cursorAccent: '#1e40af',
-            selection: '#3b82f6',
+            selectionBackground: '#3b82f6',
             black: '#1e293b',
             red: '#ef4444',
             green: '#10b981',
@@ -203,14 +214,23 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
             // 부모 컴포넌트에 명령어 전달
             onCommandSend?.(command)
             
-            // 시뮬레이션된 서버 응답 - 로딩 메시지는 simulateServerCommand 내부에서 처리
-            await simulateServerCommand(command)
+            // WebSocket이 연결되어 있으면 실제 서버로 명령어 전송
+            if (websocketRef.current && websocketRef.current.readyState === WebSocket.OPEN) {
+              websocketRef.current.send(JSON.stringify({
+                type: 'command',
+                data: command
+              }))
+              // WebSocket 연결시에는 서버 응답을 기다리므로 프롬프트를 여기서 출력하지 않음
+            } else {
+              // WebSocket 연결이 없으면 시뮬레이션 모드
+              await simulateServerCommand(command)
+              terminal.current?.write('\x1b[32m>>>\x1b[0m ')
+            }
             
           } catch (error) {
             terminal.current?.writeln(`\x1b[31mError: ${error}\x1b[0m`)
+            terminal.current?.write('\x1b[32m>>>\x1b[0m ')
           }
-          
-          terminal.current?.write('\x1b[32m>>>\x1b[0m ')
         }
 
         // 외부에서 명령어를 전송할 수 있는 함수 노출
@@ -223,8 +243,55 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
           executeCommand(command)
         }
 
+        // WebSocket 연결 함수
+        const connectWebSocket = (url: string) => {
+          try {
+            // 기존 연결이 있다면 먼저 끊기
+            if (websocketRef.current) {
+              websocketRef.current.close()
+            }
+
+            const token = localStorage.getItem('devtrip_access_token')
+            const wsUrl = `${url}?token=${token}`
+            
+            websocketRef.current = new WebSocket(wsUrl)
+
+            websocketRef.current.onopen = () => {
+              terminal.current?.writeln('\x1b[32m✓ Terminal connected to remote server\x1b[0m')
+            }
+
+            websocketRef.current.onmessage = (event) => {
+              // 서버로부터 받은 메시지를 터미널에 출력
+              terminal.current?.write(event.data)
+            }
+
+            websocketRef.current.onclose = () => {
+              terminal.current?.writeln('\x1b[33m⚠ Terminal disconnected from server\x1b[0m')
+              websocketRef.current = null
+            }
+
+            websocketRef.current.onerror = (error) => {
+              console.error('WebSocket error:', error)
+              terminal.current?.writeln('\x1b[31m✗ Terminal connection error\x1b[0m')
+            }
+          } catch (error) {
+            console.error('Failed to connect WebSocket:', error)
+            terminal.current?.writeln('\x1b[31m✗ Failed to connect to remote server\x1b[0m')
+          }
+        }
+
+        // WebSocket 연결 해제 함수
+        const disconnectWebSocket = () => {
+          if (websocketRef.current) {
+            websocketRef.current.close()
+            websocketRef.current = null
+          }
+        }
+
         // ref에 함수 할당
         sendCommandRef.current = sendCommand
+        connectWebSocketRef.current = connectWebSocket
+        disconnectWebSocketRef.current = disconnectWebSocket
 
         terminal.current.onData(handleData)
 
@@ -241,6 +308,10 @@ const TerminalComponentInner = forwardRef<TerminalRef, TerminalComponentProps>(
         // Cleanup
         return () => {
           window.removeEventListener('resize', handleResize)
+          if (websocketRef.current) {
+            websocketRef.current.close()
+            websocketRef.current = null
+          }
           terminal.current?.dispose()
         }
       }

@@ -1,8 +1,11 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { 
   Book, 
   ArrowRight,
@@ -14,9 +17,288 @@ import {
   Users,
   Star,
   Clock,
-  Zap
+  Zap,
+  MessageCircle,
+  X,
+  Send,
+  Bot,
+  BarChart3,
+  Activity,
+  GitBranch,
+  Settings
 } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+
+interface ChatMessage {
+  id: string
+  content: string
+  isBot: boolean
+  timestamp: Date
+}
+
+const ChatBot = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      content: '안녕하세요! 저는 도비입니다. DevOps 여행에서 궁금한 점이 있으시면 언제든 물어보세요! ✨',
+      isBot: true,
+      timestamp: new Date()
+    }
+  ])
+  const [inputMessage, setInputMessage] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+  const [chatSize, setChatSize] = useState({ width: 320, height: 384 })
+  const [isResizing, setIsResizing] = useState(false)
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 })
+
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim()) return
+
+    // 사용자 메시지 추가
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      content: inputMessage,
+      isBot: false,
+      timestamp: new Date()
+    }
+
+    setMessages(prev => [...prev, userMessage])
+    setInputMessage('')
+    setIsTyping(true)
+
+    // 봇 응답 시뮬레이션
+    setTimeout(() => {
+      const botResponse: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        content: getBotResponse(inputMessage),
+        isBot: true,
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, botResponse])
+      setIsTyping(false)
+    }, 1500)
+  }
+
+  const getBotResponse = (userInput: string): string => {
+    const input = userInput.toLowerCase()
+    
+    if (input.includes('docker') || input.includes('도커')) {
+      return '🐳 Docker에 대해 궁금하시군요! Docker는 컨테이너화 기술의 핵심입니다. 가상화보다 가볍고 효율적이며, 애플리케이션을 어디서든 동일하게 실행할 수 있게 해줍니다. Docker 가이드에서 자세히 알아보세요!'
+    }
+    
+    if (input.includes('kubernetes') || input.includes('쿠버네티스') || input.includes('k8s')) {
+      return '☸️ Kubernetes는 컨테이너 오케스트레이션의 표준입니다! 여러 컨테이너를 자동으로 관리하고, 스케일링, 로드밸런싱, 자동 복구 등을 제공합니다. 중급 이상 사용자에게 추천드려요.'
+    }
+    
+    if (input.includes('helm') || input.includes('헬름')) {
+      return '⚓ Helm은 Kubernetes를 위한 패키지 매니저입니다! 복잡한 Kubernetes 애플리케이션을 간단하게 배포하고 관리할 수 있게 해줍니다. Chart 템플릿을 활용하면 배포가 훨씬 쉬워져요.'
+    }
+    
+    if (input.includes('prometheus') || input.includes('프로메테우스') || input.includes('모니터링')) {
+      return '📊 Prometheus는 시계열 데이터베이스 기반의 모니터링 시스템입니다! 메트릭을 수집하고 저장하며, PromQL로 강력한 쿼리가 가능해요. Grafana와 함께 사용하면 완벽한 모니터링 스택을 구축할 수 있습니다.'
+    }
+    
+    if (input.includes('grafana') || input.includes('그라파나') || input.includes('대시보드')) {
+      return '📈 Grafana는 데이터 시각화의 끝판왕입니다! Prometheus 데이터를 아름다운 차트와 대시보드로 만들어 실시간 시스템 상태를 한눈에 볼 수 있어요. 알림 설정도 가능합니다.'
+    }
+    
+    if (input.includes('argocd') || input.includes('아르고') || input.includes('gitops')) {
+      return '🔄 ArgoCD는 GitOps의 핵심 도구입니다! Git 저장소를 진실의 원천으로 사용하여 Kubernetes에 자동으로 배포해요. 선언적 방식으로 안전하고 추적 가능한 배포가 가능합니다.'
+    }
+    
+    if (input.includes('terraform') || input.includes('테라폼') || input.includes('iac')) {
+      return '🏗️ Terraform은 Infrastructure as Code의 대표 도구입니다! 코드로 클라우드 인프라를 정의하고 관리할 수 있어요. AWS, Azure, GCP 등 모든 주요 클라우드를 지원합니다.'
+    }
+    
+    if (input.includes('시작') || input.includes('초보') || input.includes('처음')) {
+      return '🚀 DevOps를 처음 시작하신다면 Docker부터 시작하시는 것을 추천합니다! Docker → Kubernetes → Helm 순서로 기초를 다진 후, Prometheus/Grafana로 모니터링, ArgoCD로 GitOps, Terraform으로 IaC까지 학습하시면 완벽해요!'
+    }
+    
+    if (input.includes('실습') || input.includes('환경')) {
+      return '💻 실습 환경은 로컬에서 Docker Desktop과 Minikube를 설치하시면 됩니다. 각 가이드에 환경 설정 방법이 자세히 나와있으니 따라해보세요. 클라우드 환경도 활용하실 수 있어요!'
+    }
+
+    return `💡 "${userInput}"에 대한 구체적인 답변을 드리기 어렵지만, DevOps 관련 질문이시라면 Docker, Kubernetes, Helm, Prometheus, Grafana, ArgoCD, Terraform 가이드를 참고해보세요. 더 구체적으로 질문해주시면 더 정확한 답변을 드릴 수 있어요!`
+  }
+
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsResizing(true)
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: chatSize.width,
+      height: chatSize.height
+    })
+  }
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return
+      
+      const deltaX = resizeStart.x - e.clientX
+      const deltaY = resizeStart.y - e.clientY
+      
+      const newWidth = Math.max(280, Math.min(600, resizeStart.width + deltaX))
+      const newHeight = Math.max(200, Math.min(800, resizeStart.height + deltaY))
+      
+      setChatSize({ width: newWidth, height: newHeight })
+    }
+
+    const handleMouseUp = () => {
+      setIsResizing(false)
+    }
+
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [isResizing, resizeStart])
+
+  if (!isOpen) return null
+
+  return (
+    <div 
+      className="fixed bg-slate-900/95 backdrop-blur-sm border border-slate-700 rounded-xl shadow-2xl z-50 flex flex-col relative animate-[slideInUp_0.3s_ease-out]"
+      style={{ 
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: `${chatSize.width}px`, 
+        height: `${chatSize.height}px`,
+        minWidth: '280px',
+        minHeight: '200px',
+        maxWidth: '600px',
+        maxHeight: '800px',
+        cursor: isResizing ? 'nw-resize' : 'default'
+      }}
+    >
+      <div className="flex items-center justify-between p-4 border-b border-slate-700">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full overflow-hidden">
+            <Image
+              src="/dobi.png"
+              alt="도비"
+              width={32}
+              height={32}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h3 className="text-white font-medium">도비</h3>
+            <p className="text-xs text-slate-400">온라인</p>
+          </div>
+        </div>
+        <Button variant="ghost" size="sm" onClick={onClose} className="text-slate-400 hover:text-white">
+          <X className="w-4 h-4" />
+        </Button>
+      </div>
+
+      <ScrollArea className="flex-1 p-4" style={{ height: `${chatSize.height - 120}px` }}>
+        <div className="space-y-4">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={cn(
+                "flex gap-2",
+                message.isBot ? "justify-start" : "justify-end"
+              )}
+            >
+              {message.isBot && (
+                <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                  <Image
+                    src="/dobi.png"
+                    alt="도비"
+                    width={24}
+                    height={24}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <div
+                className={cn(
+                  "max-w-[70%] rounded-lg p-3 text-sm",
+                  message.isBot
+                    ? "bg-slate-800 text-slate-100"
+                    : "bg-blue-500 text-white"
+                )}
+              >
+                {message.content}
+              </div>
+            </div>
+          ))}
+          {isTyping && (
+            <div className="flex gap-2 justify-start">
+              <div className="w-6 h-6 rounded-full overflow-hidden">
+                <Image
+                  src="/dobi.png"
+                  alt="도비"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="bg-slate-800 rounded-lg p-3">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </ScrollArea>
+
+      <div className="p-4 border-t border-slate-700">
+        <div className="flex gap-2 items-start h-10 -mt-2">
+          <Input
+            placeholder="궁금한 점을 물어보세요..."
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            className="flex-1 bg-slate-800 border-slate-600 text-white placeholder:text-slate-400 h-10"
+          />
+          <Button 
+            onClick={handleSendMessage}
+            className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 h-10 aspect-square p-0 flex items-center justify-center"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+      
+      {/* 리사이즈 핸들 */}
+      <div 
+        className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize bg-transparent hover:bg-slate-600/20"
+        onMouseDown={handleResizeStart}
+      />
+      <div 
+        className="absolute top-0 left-3 right-3 h-3 cursor-n-resize bg-transparent hover:bg-slate-600/20"
+        onMouseDown={handleResizeStart}
+      />
+      <div 
+        className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize bg-transparent hover:bg-slate-600/20"
+        onMouseDown={handleResizeStart}
+      />
+      <div 
+        className="absolute left-0 top-3 bottom-3 w-3 cursor-w-resize bg-transparent hover:bg-slate-600/20"
+        onMouseDown={handleResizeStart}
+      />
+      <div 
+        className="absolute right-0 top-3 bottom-3 w-3 cursor-e-resize bg-transparent hover:bg-slate-600/20"
+        onMouseDown={handleResizeStart}
+      />
+    </div>
+  )
+}
 
 const TechCard = ({ 
   icon: Icon, 
@@ -40,8 +322,8 @@ const TechCard = ({
   tags: string[]
 }) => {
   return (
-    <Card className="h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700/50 backdrop-blur-sm hover:scale-[1.02] transition-all duration-300 group">
-      <CardHeader className="pb-4">
+    <Card className="h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700/50 backdrop-blur-sm hover:scale-[1.02] transition-all duration-300 group flex flex-col">
+      <CardHeader className="pb-4 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className={`p-3 rounded-xl ${gradient} backdrop-blur-sm w-fit`}>
             <Icon className="w-8 h-8 text-white" />
@@ -66,7 +348,7 @@ const TechCard = ({
         </div>
       </CardHeader>
       
-      <CardContent className="pt-0">
+      <CardContent className="pt-0 mt-auto">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4 text-sm text-slate-400">
             <div className="flex items-center gap-1">
@@ -110,6 +392,8 @@ const FeatureCard = ({ icon: Icon, title, description }: {
 }
 
 export default function TechGuidesPage() {
+  const [isChatOpen, setIsChatOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
       <div className="max-w-6xl mx-auto space-y-12">
@@ -187,6 +471,54 @@ export default function TechGuidesPage() {
               href="/guides/helm"
               gradient="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30"
               tags={["패키지 관리", "템플릿", "배포 자동화"]}
+            />
+
+            <TechCard
+              icon={BarChart3}
+              title="Prometheus 모니터링"
+              description="시계열 데이터베이스와 강력한 쿼리 언어(PromQL)를 활용하여 시스템 모니터링과 알림 시스템을 구축해보세요."
+              level="중급"
+              readTime="4-5시간"
+              rating={4.8}
+              href="/guides/prometheus"
+              gradient="bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30"
+              tags={["모니터링", "메트릭", "알림", "PromQL"]}
+            />
+
+            <TechCard
+              icon={Activity}
+              title="Grafana 대시보드"
+              description="Prometheus 데이터를 시각화하여 아름다운 대시보드를 만들고, 실시간 시스템 상태를 모니터링하는 방법을 학습하세요."
+              level="중급"
+              readTime="3-4시간"
+              rating={4.9}
+              href="/guides/grafana"
+              gradient="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/30"
+              tags={["대시보드", "시각화", "알림", "모니터링"]}
+            />
+
+            <TechCard
+              icon={GitBranch}
+              title="ArgoCD GitOps"
+              description="Git을 통한 지속적 배포와 GitOps 패턴을 실습해보고, 선언적 방식으로 Kubernetes 애플리케이션을 관리하세요."
+              level="고급"
+              readTime="5-6시간"
+              rating={4.6}
+              href="/guides/argocd"
+              gradient="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30"
+              tags={["GitOps", "CI/CD", "자동화", "배포"]}
+            />
+
+            <TechCard
+              icon={Settings}
+              title="Terraform IaC"
+              description="Infrastructure as Code를 통해 클라우드 리소스를 선언적으로 관리하고, 인프라 프로비저닝을 자동화하는 방법을 배우세요."
+              level="고급"
+              readTime="6-7시간"
+              rating={4.7}
+              href="/guides/terraform"
+              gradient="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30"
+              tags={["IaC", "프로비저닝", "클라우드", "자동화"]}
             />
           </div>
         </div>
@@ -277,6 +609,23 @@ export default function TechGuidesPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* 챗봇 호출 버튼 */}
+      {!isChatOpen && (
+        <Button
+          onClick={() => setIsChatOpen(true)}
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-2xl hover:scale-110 hover:shadow-3xl transition-all duration-300 ease-out z-50 animate-bounce"
+          style={{ animationDuration: '2s' }}
+        >
+          <MessageCircle className="w-6 h-6 text-white" />
+        </Button>
+      )}
+
+      {/* 챗봇 */}
+      <ChatBot 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)} 
+      />
     </div>
   )
 }

@@ -202,7 +202,7 @@ export function UserProgressTracker({ data, title = "학습 진행도" }: UserPr
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h5 className="text-white font-medium">{activity.mission_title}</h5>
-                    <Badge className={getDifficultyColor(activity.mission_difficulty)} size="sm">
+                    <Badge className={getDifficultyColor(activity.mission_difficulty) + " text-xs px-2 py-1"}>
                       {activity.mission_difficulty}
                     </Badge>
                   </div>

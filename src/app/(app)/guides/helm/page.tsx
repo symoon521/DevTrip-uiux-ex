@@ -25,7 +25,7 @@ import {
   Monitor,
   GitBranch,
   Server,
-  Helm,
+  Ship,
   Box
 } from "lucide-react"
 import { useState } from "react"
@@ -507,15 +507,15 @@ spec:
                       <h4 className="text-purple-300 font-medium mb-3">기본 함수</h4>
                       <div className="space-y-3">
                         <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-                          <code className="text-green-400">{{ `{{- include "template.name" . -}}` }}</code>
+                          <code className="text-green-400">{`{{- include "template.name" . -}}`}</code>
                           <p className="text-slate-400 text-sm mt-1">템플릿 포함</p>
                         </div>
                         <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-                          <code className="text-green-400">{{ `{{ .Values.image.tag | default "latest" }}` }}</code>
+                          <code className="text-green-400">{`{{ .Values.image.tag | default "latest" }}`}</code>
                           <p className="text-slate-400 text-sm mt-1">기본값 설정</p>
                         </div>
                         <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
-                          <code className="text-green-400">{{ `{{ .Chart.Name | upper }}` }}</code>
+                          <code className="text-green-400">{`{{ .Chart.Name | upper }}`}</code>
                           <p className="text-slate-400 text-sm mt-1">문자열 대문자 변환</p>
                         </div>
                       </div>

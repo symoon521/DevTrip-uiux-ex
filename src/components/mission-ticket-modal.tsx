@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils"
 import { Mission, City, Country } from "@/types/mission"
 import { DIFFICULTY_CONFIG, ANIMATION_DURATIONS } from "@/lib/constants"
 import { useKeyboardNavigation, useFocusTrap } from "@/hooks/use-keyboard-navigation"
+import { TicketSystem } from "@/components/ticket-system"
 
 interface MissionTicketModalProps {
   mission: Mission
@@ -41,6 +42,7 @@ export function MissionTicketModal({
   const [showPlaneAnimation, setShowPlaneAnimation] = useState(false)
   const [loadingMessage, setLoadingMessage] = useState('')
   const [showWhiteScreen, setShowWhiteScreen] = useState(false)
+  const [showTicketSystem, setShowTicketSystem] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   
   const difficultyInfo = DIFFICULTY_CONFIG[mission.difficulty]
@@ -58,7 +60,18 @@ export function MissionTicketModal({
   const gate = `G${Math.floor(Math.random() * 50) + 1}`
   const seat = `${Math.floor(Math.random() * 30) + 1}${String.fromCharCode(65 + Math.floor(Math.random() * 6))}`
 
+  const handleTicketUse = () => {
+    // 티켓을 사용한 후 미션 시작
+    setShowTicketSystem(false)
+    startMission()
+  }
+
   const handleBooking = () => {
+    // 티켓 시스템 표시
+    setShowTicketSystem(true)
+  }
+
+  const startMission = () => {
     setIsBooking(true)
     setShowPlaneAnimation(true)
     
@@ -98,14 +111,6 @@ export function MissionTicketModal({
       <DialogContent className="max-w-5xl p-0 bg-transparent border-0 shadow-none">
         <DialogTitle className="sr-only">미션 항공편 예약 - {mission.title}</DialogTitle>
         <div ref={modalRef} className="relative animate-fade-in-scale animate-ticket-float depth-effect" role="dialog" aria-labelledby="mission-title" aria-describedby="mission-description">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute -top-12 right-0 z-50 material-glass hover:bg-white/20 text-white border border-white/20 rounded-full animate-micro-bounce hover:scale-110 transition-all duration-300"
-            onClick={onClose}
-          >
-            <X className="w-4 h-4" />
-          </Button>
           
           <Card className="overflow-hidden bg-gradient-to-br from-slate-50/95 to-blue-50/95 border border-white/20 shadow-2xl card-3d animate-premium-glow backdrop-blur-sm">
             <div className="relative">
@@ -293,7 +298,7 @@ export function MissionTicketModal({
                   <Button
                     variant="outline"
                     onClick={onClose}
-                    className="flex-1 py-6 text-lg border-2 hover:bg-gray-50 text-gray-700 border-gray-300"
+                    className="flex-1 py-6 text-lg border-2 hover:bg-gray-50 hover:text-gray-700 text-gray-700 border-gray-300"
                     disabled={isBooking}
                   >
                     나중에 예약
@@ -512,6 +517,35 @@ export function MissionTicketModal({
               {showWhiteScreen && (
                 <div className="absolute inset-0 bg-white opacity-0 animate-fade-in [animation-duration:1s] [animation-fill-mode:both]" />
               )}
+            </div>
+          )}
+
+          {/* 티켓 시스템 모달 */}
+          {showTicketSystem && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[110]">
+              <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-center mb-2">🎫 티켓이 필요합니다!</h3>
+                  <p className="text-gray-600 text-center text-sm">
+                    미션을 시작하려면 티켓 1장이 필요합니다.
+                  </p>
+                </div>
+                
+                <TicketSystem 
+                  onUseTicket={handleTicketUse}
+                  canUseMission={true}
+                />
+                
+                <div className="mt-4 flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowTicketSystem(false)}
+                    className="flex-1"
+                  >
+                    취소
+                  </Button>
+                </div>
+              </div>
             </div>
           )}
         </div>

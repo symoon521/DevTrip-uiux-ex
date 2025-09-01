@@ -1,11 +1,13 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
+import { useToast } from "@/hooks/use-toast"
 import { 
   Brain, 
   TrendingUp, 
@@ -23,13 +25,17 @@ import {
   Target,
   Globe,
   Users,
-  Server
+  Server,
+  Loader2,
+  RefreshCw
 } from "lucide-react"
 
 import { ScoreChart } from "@/components/evaluation/score-chart"
 import { CommandSecurityRadar } from "@/components/evaluation/command-security-radar"
 import { MissionPerformanceChart } from "@/components/evaluation/mission-performance-chart"
 import { UserProgressTracker } from "@/components/evaluation/user-progress-tracker"
+import { aiEvaluationApi } from "@/lib/api/ai-evaluation"
+import type { AIEvaluationResponse } from "@/types/ai-evaluation"
 
 // Mock data based on the database schema
 const mockEvaluationData = {
@@ -142,7 +148,80 @@ const mockEvaluationData = {
 
 export default function EvaluationPage() {
   const [selectedTab, setSelectedTab] = useState("overview")
-  const { user, recentEvaluation, commandAnalysis, evaluationHistory, missionTypeStats } = mockEvaluationData
+  const [evaluationData, setEvaluationData] = useState<AIEvaluationResponse | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  const { toast } = useToast()
+
+  const evaluationId = searchParams.get('evaluationId')
+
+  useEffect(() => {
+    loadEvaluationData()
+  }, [evaluationId])
+
+  const loadEvaluationData = async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const data = await aiEvaluationApi.getComprehensiveEvaluationData(
+        evaluationId ? parseInt(evaluationId) : undefined
+      )
+      setEvaluationData(data)
+    } catch (error) {
+      console.error('Failed to load evaluation data:', error)
+      setError('평가 데이터를 불러올 수 없습니다.')
+      toast({
+        title: "데이터 로드 실패",
+        description: "평가 데이터를 불러오는데 실패했습니다.",
+        variant: "destructive",
+      })
+      // Fallback to mock data
+      setEvaluationData(mockEvaluationData)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleRetry = () => {
+    loadEvaluationData()
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 md:p-8 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-400 mx-auto" />
+          <h2 className="text-xl font-semibold text-white">평가 결과 로딩 중...</h2>
+          <p className="text-slate-400">잠시만 기다려주세요.</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error && !evaluationData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 md:p-8 flex items-center justify-center">
+        <div className="text-center space-y-4 max-w-md">
+          <XCircle className="w-12 h-12 text-red-400 mx-auto" />
+          <h2 className="text-xl font-semibold text-white">데이터 로드 실패</h2>
+          <p className="text-slate-400">{error}</p>
+          <Button onClick={handleRetry} variant="outline">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            다시 시도
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  const { user, recentEvaluation, commandAnalysis, evaluationHistory } = evaluationData || mockEvaluationData
+  
+  // Handle both new API and mock data structure
+  const missionTypeStats = (evaluationData && 'missionStats' in evaluationData) 
+    ? evaluationData.missionStats 
+    : mockEvaluationData.missionTypeStats
 
   const getScoreColor = (score: number) => {
     if (score >= 90) return "text-emerald-500"
